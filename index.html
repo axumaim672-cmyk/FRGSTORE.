@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
     <title>FRG STORE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
     <style>
         :root {
@@ -12,26 +12,26 @@
             --card-bg: #141320;
             --card-border: rgba(255, 255, 255, 0.08);
             --neon-green: #00ff73;
+            --primary-green: #00a859;
             --bkash-color: #e2136e;
-            --btn-blue: #5b5ceb;
-            --btn-buy: #00b074;
             --text-main: #ffffff;
             --text-muted: #9598a8;
+            --error-red: #ff2a5f;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 75px; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; }
         .hidden { display: none !important; }
 
-        /* Loader */
+        /* Global Loader */
         #loader { position: fixed; inset: 0; background: #07060b; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
         .spinner { width: 45px; height: 45px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--neon-green); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* Toast */
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100000; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 380px; }
-        .toast { padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; background: rgba(20, 19, 32, 0.95); border: 1px solid var(--card-border); border-left: 4px solid var(--neon-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; }
-        .toast.error { border-left-color: #ff3366; }
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100005; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 380px; }
+        .toast { padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; background: rgba(20, 19, 32, 0.98); border: 1px solid var(--card-border); border-left: 4px solid var(--neon-green); box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px; }
+        .toast.error { border-left-color: var(--error-red); }
 
         /* Top Header */
         .top-navbar {
@@ -41,14 +41,16 @@
         }
         .brand-badge {
             background: #1d1b2c; border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px; padding: 6px 16px; font-size: 15px; font-weight: 800;
-            color: #fff; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+            border-radius: 20px; padding: 5px 14px; font-size: 14px; font-weight: 800;
+            color: #fff; display: flex; align-items: center; gap: 8px;
         }
-        .brand-badge span { color: var(--neon-green); }
+        .brand-logo-img {
+            width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1px solid var(--neon-green);
+        }
         .balance-chip {
             background: rgba(0, 255, 115, 0.1); border: 1px solid rgba(0, 255, 115, 0.3);
             color: var(--neon-green); font-weight: 700; font-size: 14px;
-            padding: 6px 14px; border-radius: 20px; cursor: pointer;
+            padding: 6px 14px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 6px;
         }
 
         .page-container { max-width: 480px; margin: 0 auto; padding: 15px; }
@@ -56,9 +58,12 @@
         /* Auth Screen */
         .auth-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
-            padding: 30px 20px; text-align: center; margin-top: 40px;
+            padding: 30px 20px; text-align: center; margin-top: 30px;
         }
-        .auth-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+        .auth-logo-center {
+            width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--neon-green);
+            margin: 0 auto 12px; display: block; object-fit: cover;
+        }
         .input-group { margin-bottom: 14px; text-align: left; }
         .input-group label { display: block; font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
         .input-box {
@@ -82,7 +87,11 @@
             overflow: hidden; display: flex; flex-direction: column; text-align: center;
             padding: 10px; transition: transform 0.2s; position: relative;
         }
-        .product-card:active { transform: scale(0.98); }
+        .stockout-badge {
+            position: absolute; top: 8px; right: 8px; background: var(--error-red); color: white;
+            font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 8px; z-index: 5;
+            box-shadow: 0 2px 8px rgba(255, 42, 95, 0.5); letter-spacing: 0.5px;
+        }
         .product-poster-wrapper {
             width: 100%; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden;
             background: #06050b; margin-bottom: 10px; display: flex; justify-content: center; align-items: center;
@@ -93,7 +102,7 @@
             padding: 6px 8px; border-radius: 20px; text-transform: uppercase;
             white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px;
         }
-        .product-price-txt { font-size: 15px; font-weight: 800; color: var(--neon-green); margin-bottom: 10px; }
+        .product-price-txt { font-size: 14px; font-weight: 800; color: var(--neon-green); margin-bottom: 10px; }
         .btn-card-setup {
             width: 100%; height: 36px; background: #4d4bd6; color: white; border-radius: 10px;
             border: none; font-size: 11px; font-weight: 700; display: flex; align-items: center;
@@ -104,100 +113,109 @@
             border: none; font-size: 11px; font-weight: 700; display: flex; align-items: center;
             justify-content: center; gap: 6px; cursor: pointer;
         }
+        .btn-card-buy.disabled-stock {
+            background: #374151 !important; color: #9ca3af !important; cursor: not-allowed; opacity: 0.8;
+        }
 
-        /* -------------------------------------------
-           FILE & SETUP POPUP MODAL (Exact match with screenshot)
-        ------------------------------------------- */
-        .setup-modal-backdrop {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);
-            z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 20px;
+        /* ADD MONEY */
+        .white-card {
+            background: #ffffff; color: #1e293b; border-radius: 20px; padding: 22px 18px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.3); margin-bottom: 18px;
         }
-        .setup-modal-box {
-            background: #161a29; width: 100%; max-width: 380px; border-radius: 24px;
-            border: 2px solid #00ff73; padding: 22px 18px; box-shadow: 0 0 30px rgba(0, 255, 115, 0.2);
-            animation: zoomIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .white-card h2 { font-size: 18px; font-weight: 800; margin-bottom: 16px; color: #0f172a; }
+        .white-card label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #334155; }
+        .white-card .light-input, .white-card .light-select {
+            width: 100%; height: 48px; border-radius: 12px; border: 1.5px solid #e2e8f0;
+            background: #f8fafc; font-size: 14px; padding: 0 14px; outline: none; margin-bottom: 16px;
+            color: #0f172a; font-weight: 500;
         }
-        @keyframes zoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .setup-modal-header {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        .btn-green-submit {
+            width: 100%; height: 50px; background: #009a49; color: white; border: none;
+            border-radius: 14px; font-size: 14px; font-weight: 800; cursor: pointer;
+            letter-spacing: 0.5px; transition: 0.2s;
         }
-        .setup-modal-title {
-            font-size: 14px; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px;
-            max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+
+        .deposit-record-card {
+            background: #ffffff; border-radius: 16px; padding: 16px; margin-top: 10px;
+            color: #1e293b; border: 1.5px solid #e2e8f0;
         }
-        .setup-modal-close {
-            width: 34px; height: 34px; border-radius: 50%; background: #232738;
-            display: flex; justify-content: center; align-items: center; color: #a1a5b8;
-            cursor: pointer; border: none; font-size: 14px;
+        .dep-badge-paid { background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
+        .dep-badge-pending { background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
+
+        /* MODALS */
+        .process-modal-backdrop, .gateway-modal-backdrop, .setup-modal-backdrop, .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+            z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 18px;
         }
-        
-        .setup-action-list { display: flex; flex-direction: column; gap: 12px; }
-        .setup-act-btn {
-            width: 100%; height: 52px; border-radius: 14px; border: none;
-            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
-            color: #ffffff; font-weight: 700; font-size: 13px; text-decoration: none;
-            letter-spacing: 0.5px; cursor: pointer; transition: transform 0.2s;
+        .process-modal-box, .gateway-window {
+            background: #ffffff; width: 100%; max-width: 400px; border-radius: 22px;
+            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-        .setup-act-btn:active { transform: scale(0.98); }
-        .setup-act-left { display: flex; align-items: center; gap: 12px; }
-        .setup-act-left i { font-size: 18px; }
-        
-        /* Button Colors */
-        .btn-setup-yt { background: #e53935; box-shadow: 0 4px 15px rgba(229, 57, 53, 0.35); }
-        .btn-setup-apk { background: #9c27b0; box-shadow: 0 4px 15px rgba(156, 39, 176, 0.35); }
-        .btn-setup-feedback { background: #1e88e5; box-shadow: 0 4px 15px rgba(30, 136, 229, 0.35); }
+        .process-modal-top { background: #00aa38; padding: 18px; display: flex; align-items: center; gap: 14px; color: white; }
+        .process-logo-wrap { width: 50px; height: 50px; border-radius: 12px; overflow: hidden; background: #000; }
+        .process-logo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .process-steps-body { padding: 20px 18px; color: #1e293b; }
+        .step-row-box {
+            border: 1.5px solid #dcfce7; background: #f0fdf4; border-radius: 14px;
+            padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+        }
+        .step-row-box.active { border-color: #00a859; background: #ffffff; }
+        .step-row-box.waiting { border-color: #f1f5f9; background: #f8fafc; opacity: 0.6; }
+        .step-icon-badge { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+        .icon-green { background: #00c067; color: white; }
+        .icon-gray { background: #e2e8f0; color: #64748b; }
+        .step-spinner { width: 18px; height: 18px; border: 2.5px solid #dcfce7; border-top-color: #00a859; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .step-check { color: #00a859; font-size: 18px; font-weight: 900; }
+
+        /* GATEWAY */
+        .gw-top-nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #f1f5f9; color: #64748b; }
+        .gw-brand-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 10px; }
+        .gw-brand-logo { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
+        .gw-methods-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 15px 16px 20px; }
+        .gw-method-card {
+            border: 2px solid #e2136e; background: #fff0f6; border-radius: 14px; padding: 16px 10px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+        }
+        .gw-method-badge { position: absolute; top: -8px; right: 10px; background: #00b488; color: white; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px; }
+        .gw-method-logo { height: 45px; max-width: 170px; object-fit: contain; }
+        .gw-bottom-pay { background: #e2136e; color: white; font-weight: 800; font-size: 15px; height: 50px; border: none; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; }
+
+        /* BKASH TRANSACTION */
+        .bkash-step2-wrapper { padding: 12px 14px 20px; }
+        .bkash-logo-big { height: 42px; display: block; margin: 4px auto 12px; object-fit: contain; }
+        .bkash-pink-box { background: #d61464; border-radius: 18px; padding: 18px 16px; color: white; }
+        .trx-input-holder { position: relative; background: #ffffff; border-radius: 12px; margin-bottom: 16px; padding: 8px 12px; }
+        .trx-input-floating-label { position: absolute; top: -10px; left: 12px; background: #ffffff; color: #d61464; font-size: 10px; font-weight: 800; padding: 0 6px; border-radius: 4px; }
+        .trx-actual-input { width: 100%; border: none; outline: none; font-size: 15px; font-weight: 700; color: #0f172a; text-transform: uppercase; }
+        .bkash-instructions-list { font-size: 11px; line-height: 1.8; list-style: none; margin-bottom: 16px; }
+        .copy-pill-btn { background: rgba(255,255,255,0.25); border: none; color: white; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; cursor: pointer; margin-left: 6px; }
+        .btn-bkash-verify-submit { width: 100%; height: 46px; background: #a50a49; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
+
+        /* SETUP MODAL */
+        .setup-modal-box { background: #161a29; width: 100%; max-width: 380px; border-radius: 24px; border: 2px solid #00ff73; padding: 22px 18px; }
+        .setup-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .setup-act-btn { width: 100%; height: 50px; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; color: white; font-weight: 700; font-size: 12px; text-decoration: none; margin-bottom: 10px; }
+        .btn-setup-yt { background: #e53935; }
+        .btn-setup-apk { background: #9c27b0; }
+        .btn-setup-feedback { background: #1e88e5; }
 
         /* BUY MODAL */
-        .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-            z-index: 10001; display: flex; align-items: flex-end; justify-content: center;
-        }
-        .modal-sheet {
-            background: #181726; width: 100%; max-width: 480px; border-top-left-radius: 24px;
-            border-top-right-radius: 24px; padding: 25px 20px; border-top: 1px solid rgba(255,255,255,0.1);
-        }
+        .modal-backdrop { align-items: flex-end; padding: 0; }
+        .modal-sheet { background: #181726; width: 100%; max-width: 480px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 25px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* bKash Add Fund */
-        .bkash-banner {
-            background: linear-gradient(135deg, #e2136e, #9e0c4c); border-radius: 16px;
-            padding: 20px; text-align: center; color: white; margin-bottom: 15px;
-        }
-        .bkash-number-box {
-            background: #fff; color: #000; font-size: 18px; font-weight: 800;
-            padding: 10px 15px; border-radius: 12px; margin: 12px 0; display: flex;
-            justify-content: space-between; align-items: center; cursor: pointer;
-        }
-
-        /* Bottom Navigation */
+        /* Bottom Nav */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
             background: #12111c; border-top: 1px solid var(--card-border);
             display: flex; justify-content: space-around; align-items: center; z-index: 999;
         }
-        .nav-tab-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer;
-        }
+        .nav-tab-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer; }
         .nav-tab-item.active { color: var(--neon-green); }
 
-        /* Floating Support */
-        .floating-support {
-            position: fixed; bottom: 80px; right: 18px; width: 50px; height: 50px;
-            background: #25d366; border-radius: 50%; display: flex; justify-content: center;
-            align-items: center; color: white; font-size: 24px; box-shadow: 0 6px 20px rgba(37,211,102,0.4);
-            z-index: 990; text-decoration: none;
-        }
+        .floating-support { position: fixed; bottom: 80px; right: 18px; width: 50px; height: 50px; background: #25d366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; z-index: 990; text-decoration: none; }
 
-        .keys-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
-            padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;
-        }
-        .key-copy-row {
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; font-family: monospace;
-            color: var(--neon-green); font-size: 13px; font-weight: 700;
-        }
+        .keys-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .key-copy-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: var(--neon-green); font-size: 13px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -209,15 +227,14 @@
 
 <div id="toast-container"></div>
 
-<!-- Floating Customer Care -->
-<a href="@DEVBRONX" target="_blank" class="floating-support">
-    <i class="fas fa-headset"></i>
-</a>
+<!-- Customer Care -->
+<a href="https://t.me/DEVBRONX" target="_blank" class="floating-support"><i class="fas fa-headset"></i></a>
 
 <!-- AUTH SECTION -->
 <div id="auth-section" class="page-container">
     <div class="auth-card" id="login-box">
-        <h2>FRG <span>STORE</span></h2>
+        <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="FRG STORE" class="auth-logo-center"/>
+        <h2 style="font-weight: 800;">FRG <span style="color:var(--neon-green);">STORE</span></h2>
         <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Login to your client account</p>
         
         <div class="input-group">
@@ -233,7 +250,8 @@
     </div>
 
     <div class="auth-card hidden" id="signup-box">
-        <h2>REGISTER</h2>
+        <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="FRG STORE" class="auth-logo-center"/>
+        <h2 style="font-weight: 800;">REGISTER</h2>
         <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Join FRG STORE today</p>
         
         <div class="input-group">
@@ -257,11 +275,12 @@
     </div>
 </div>
 
-<!-- MAIN CLIENT APP -->
+<!-- MAIN APP -->
 <div id="main-app" class="hidden">
     <header class="top-navbar">
         <div class="brand-badge">
-            <i class="fas fa-shield-alt" style="color:var(--neon-green)"></i> FRG STORE
+            <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="FRG" class="brand-logo-img"/>
+            <span>FRG <strong style="color:var(--neon-green)">STORE</strong></span>
         </div>
         <div class="balance-chip" onclick="switchTab('tab-addfund')">
             <i class="fas fa-wallet"></i> ৳<span id="user-bal-top">0.00</span>
@@ -279,39 +298,32 @@
             <div class="product-grid" id="products-grid-target"></div>
         </section>
 
-        <!-- TAB 2: ADD FUND (BKASH) -->
+        <!-- TAB 2: ADD FUND -->
         <section id="view-addfund" class="hidden">
-            <div class="bkash-banner">
-                <div style="font-size: 18px; font-weight: 800; display:flex; justify-content:center; align-items:center; gap:8px;">
-                    <i class="fas fa-money-bill-wave"></i> bKash Personal Deposit
+            <div class="white-card">
+                <h2>Add Money</h2>
+                <div class="input-group" style="margin-bottom:0;">
+                    <label>Enter the amount</label>
+                    <input type="number" class="light-input" id="inp-deposit-amount" placeholder="Amount (1 - 50000)"/>
                 </div>
-                <p style="font-size: 12px; margin-top: 4px; opacity: 0.9;">Send Money to this personal bKash number</p>
-                
-                <div class="bkash-number-box" onclick="copyBkashNumber()">
-                    <span id="bkash-num-text">01860909272</span>
-                    <i class="far fa-copy" style="color: var(--bkash-color); font-size: 18px;"></i>
+
+                <div class="input-group" style="margin-bottom:18px;">
+                    <label>Select Payment Method</label>
+                    <select class="light-select" id="sel-payment-method">
+                        <option value="bkash_bd">bKash Personal (BD)</option>
+                    </select>
                 </div>
-                <span style="font-size:10px; background:rgba(255,255,255,0.2); padding:4px 10px; border-radius:8px;">
-                    <i class="fas fa-info-circle"></i> Minimum Deposit: ৳20
-                </span>
+
+                <button class="btn-green-submit" id="btn-trigger-addmoney">CLICK HERE TO ADD MONEY</button>
             </div>
 
-            <div class="auth-card" style="margin-top: 0;">
-                <div class="input-group">
-                    <label>Amount Sent (৳)</label>
-                    <input type="number" class="input-box" id="dep-amount" placeholder="e.g. 100"/>
+            <div class="white-card" style="margin-top:14px;">
+                <h3 style="font-size:16px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <i class="fas fa-list-ul" style="color:#00a859;"></i> My Deposits
+                </h3>
+                <div id="deposit-history-list">
+                    <p style="font-size:12px; color:#64748b; margin-top:10px; text-align:center;">No recent deposits found.</p>
                 </div>
-                <div class="input-group">
-                    <label>Sender bKash Number</label>
-                    <input type="text" class="input-box" id="dep-sender" placeholder="017xxxxxxxx"/>
-                </div>
-                <div class="input-group">
-                    <label>bKash Transaction ID (TrxID)</label>
-                    <input type="text" class="input-box" id="dep-trxid" placeholder="8N7X6K9LM"/>
-                </div>
-                <button class="btn-main" style="background: var(--bkash-color);" id="btn-submit-bkash">
-                    <i class="fas fa-paper-plane"></i> Submit Deposit
-                </button>
             </div>
         </section>
 
@@ -327,9 +339,7 @@
         <section id="view-account" class="hidden">
             <div class="auth-card" style="margin-top: 0; text-align: left;">
                 <div style="display:flex; align-items:center; gap:12px; margin-bottom: 15px;">
-                    <div style="width:50px; height:50px; background:#201e33; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:20px; color:var(--neon-green);">
-                        <i class="fas fa-user"></i>
-                    </div>
+                    <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" style="width:52px; height:52px; border-radius:50%; object-fit:cover; border:2px solid var(--neon-green);" alt="Profile"/>
                     <div>
                         <h3 id="acc-username">Username</h3>
                         <p style="font-size:12px; color:var(--text-muted);" id="acc-email">email@gmail.com</p>
@@ -354,7 +364,7 @@
         </section>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Nav -->
     <nav class="bottom-nav">
         <div class="nav-tab-item active" id="tab-home" onclick="switchTab('tab-home')"><i class="fas fa-home"></i><span>Home</span></div>
         <div class="nav-tab-item" id="tab-addfund" onclick="switchTab('tab-addfund')"><i class="fas fa-wallet"></i><span>Add Fund</span></div>
@@ -363,41 +373,134 @@
     </nav>
 </div>
 
-<!-- FILE & SETUP MODAL POPUP (EXACT MATCH WITH SCREENSHOT) -->
+<!-- MODAL 1: VERIFICATION MODAL -->
+<div class="process-modal-backdrop hidden" id="process-verification-modal">
+    <div class="process-modal-box">
+        <div class="process-modal-top">
+            <div class="process-logo-wrap"><img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="Logo"/></div>
+            <div style="margin-left:12px;">
+                <h5 style="font-size:10px; font-weight:800; opacity:0.9;">PURCHASE PROCESS</h5>
+                <h3 style="font-size:14px; font-weight:800;">FRG STORE DEPOSIT</h3>
+                <p style="font-size:11px; opacity:0.85;">Securing connection to server...</p>
+            </div>
+        </div>
+
+        <div class="process-steps-body">
+            <div class="step-row-box active" id="p-step-1">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="step-icon-badge icon-green"><i class="fas fa-user"></i></div>
+                    <div>
+                        <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 01</span>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">User</h4>
+                    </div>
+                </div>
+                <div id="p-status-1"><i class="fas fa-check step-check"></i></div>
+            </div>
+
+            <div class="step-row-box active" id="p-step-2">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="step-icon-badge icon-green"><i class="fas fa-server"></i></div>
+                    <div>
+                        <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 02</span>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Product Server</h4>
+                    </div>
+                </div>
+                <div id="p-status-2"><div class="step-spinner"></div></div>
+            </div>
+
+            <div class="step-row-box waiting" id="p-step-3">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="step-icon-badge icon-gray"><i class="fas fa-check"></i></div>
+                    <div>
+                        <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 03</span>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Complete</h4>
+                    </div>
+                </div>
+                <div id="p-status-3"><i class="far fa-circle" style="color:#94a3b8"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: BKASH SELECTOR -->
+<div class="gateway-modal-backdrop hidden" id="gateway-selection-modal">
+    <div class="gateway-window">
+        <div class="gw-top-nav">
+            <i class="fas fa-home" style="font-size:18px;"></i>
+            <i class="fas fa-times" onclick="closeGatewayModal()" style="font-size:20px; cursor:pointer;"></i>
+        </div>
+        <div class="gw-brand-center">
+            <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="FRG" class="gw-brand-logo"/>
+            <h4 style="font-size:14px; font-weight:800; color:#0f172a;">FRG STORE</h4>
+            <div style="font-size:11px; color:#64748b;">Invoice: <strong id="gw-invoice-code" style="color:#e2136e;">#H3FB95783244</strong></div>
+        </div>
+
+        <div class="gw-methods-grid">
+            <div class="gw-method-card">
+                <span class="gw-method-badge">PERSONAL</span>
+                <img src="https://i.ibb.co/PvbcWbNF/1000076293.jpg" alt="bKash" class="gw-method-logo"/>
+            </div>
+        </div>
+
+        <button class="gw-bottom-pay" onclick="proceedToTrxPage()">
+            PAY ৳<span id="gw-pay-amount">50.00</span>
+        </button>
+    </div>
+</div>
+
+<!-- MODAL 3: BKASH SUBMIT -->
+<div class="gateway-modal-backdrop hidden" id="gateway-trx-modal">
+    <div class="gateway-window">
+        <div class="gw-top-nav">
+            <i class="fas fa-home" style="font-size:18px;"></i>
+            <i class="fas fa-times" onclick="closeGatewayModal()" style="font-size:20px; cursor:pointer;"></i>
+        </div>
+
+        <div class="bkash-step2-wrapper">
+            <img src="https://i.ibb.co/PvbcWbNF/1000076293.jpg" alt="bKash" class="bkash-logo-big"/>
+            <div class="bkash-pink-box">
+                <h4 style="text-align:center; font-size:14px; font-weight:800; margin-bottom:12px;">ট্রানজেকশন আইডি দিন</h4>
+
+                <div class="trx-input-holder">
+                    <span class="trx-input-floating-label">ট্রানজেকশন আইডি লিখুন</span>
+                    <input type="text" class="trx-actual-input" id="trx-input-value" placeholder="8N7X6K9LM" maxlength="16"/>
+                </div>
+
+                <ul class="bkash-instructions-list">
+                    <li>• *247# অথবা bKash অ্যাপে যান।</li>
+                    <li>
+                        • "Send Money" নম্বরঃ <strong>01860909272</strong>
+                        <button class="copy-pill-btn" onclick="copyNumber('01860909272')">Copy</button>
+                    </li>
+                    <li>• পরিমাণঃ <strong>৳<span id="trx-amount-show">50.00</span></strong></li>
+                    <li>• TrxID উপরে লিখে Verify বাটনে চাপুন।</li>
+                </ul>
+
+                <button class="btn-bkash-verify-submit" id="btn-verify-payment">VERIFY</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SETUP MODAL -->
 <div class="setup-modal-backdrop hidden" id="setup-popup-modal">
     <div class="setup-modal-box">
         <div class="setup-modal-header">
-            <span class="setup-modal-title" id="popup-panel-title">PANEL NAME</span>
-            <button class="setup-modal-close" onclick="closeSetupModal()"><i class="fas fa-times"></i></button>
+            <span style="font-size:14px; font-weight:800; color:#fff;" id="popup-panel-title">PANEL</span>
+            <button onclick="closeSetupModal()" style="background:#232738; color:#fff; border:none; width:30px; height:30px; border-radius:50%; cursor:pointer;"><i class="fas fa-times"></i></button>
         </div>
-        <div class="setup-action-list">
-            <!-- 1. Red Setup Video -->
-            <a href="#" target="_blank" class="setup-act-btn btn-setup-yt" id="popup-yt-btn">
-                <div class="setup-act-left">
-                    <i class="fab fa-youtube"></i>
-                    <span>SET-UP VIDEO</span>
-                </div>
-                <i class="fas fa-chevron-right"></i>
-            </a>
-
-            <!-- 2. Purple Updated APK / File -->
-            <a href="#" target="_blank" class="setup-act-btn btn-setup-apk" id="popup-apk-btn">
-                <div class="setup-act-left">
-                    <i class="fas fa-download"></i>
-                    <span>UPDATED APK / FILE</span>
-                </div>
-                <i class="fas fa-chevron-right"></i>
-            </a>
-
-            <!-- 3. Blue Customer Feedback -->
-            <a href="#" target="_blank" class="setup-act-btn btn-setup-feedback" id="popup-feedback-btn">
-                <div class="setup-act-left">
-                    <i class="fas fa-comment-dots"></i>
-                    <span>CUSTOMER FEEDBACK</span>
-                </div>
-                <i class="fas fa-chevron-right"></i>
-            </a>
-        </div>
+        <a href="#" target="_blank" class="setup-act-btn btn-setup-yt" id="popup-yt-btn">
+            <div style="display:flex; align-items:center; gap:10px;"><i class="fab fa-youtube"></i><span>SET-UP VIDEO</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#" target="_blank" class="setup-act-btn btn-setup-apk" id="popup-apk-btn">
+            <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-download"></i><span>UPDATED APK / FILE</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
+        <a href="#" target="_blank" class="setup-act-btn btn-setup-feedback" id="popup-feedback-btn">
+            <div style="display:flex; align-items:center; gap:10px;"><i class="fas fa-comment-dots"></i><span>CUSTOMER FEEDBACK</span></div>
+            <i class="fas fa-chevron-right"></i>
+        </a>
     </div>
 </div>
 
@@ -410,12 +513,12 @@
         </div>
 
         <div class="input-group">
-            <label>Select Duration / Plan</label>
+            <label>Select Duration Plan (মেয়াদ নির্বাচন করুন)</label>
             <select class="input-box" id="modal-duration-select" onchange="calculateModalTotal()"></select>
         </div>
 
         <div class="input-group">
-            <label>Quantity</label>
+            <label>Quantity (সংখ্যা)</label>
             <input type="number" class="input-box" id="modal-qty-input" value="1" min="1" oninput="calculateModalTotal()"/>
         </div>
 
@@ -424,7 +527,7 @@
             <span style="font-size:18px; font-weight:800; color:var(--neon-green);" id="modal-total-price">৳0.00</span>
         </div>
 
-        <button class="btn-main" id="btn-confirm-purchase" onclick="executePurchase()">CONFIRM & GENERATE KEY</button>
+        <button class="btn-main" id="btn-confirm-purchase" onclick="executePurchase()">CONFIRM & GET KEY</button>
     </div>
 </div>
 
@@ -432,7 +535,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, set, onValue, update, push, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // UPDATED NEW FIREBASE CONFIG
     const firebaseConfig = {
         apiKey: "AIzaSyBncaOFVPMcr23GFl3Wx0O-0rI7ALKxmBg",
         authDomain: "stxwin-eade6.firebaseapp.com",
@@ -449,7 +551,9 @@
     let currentUserId = null;
     let currentUserData = { balance: 0, username: '' };
     let liveStoreProducts = {};
-    let selectedBuyProduct = null;
+    let selectedBuyProductKey = null;
+    let pendingDepositAmount = 50;
+    let currentInvoice = "";
 
     const TELEGRAM_BOT_TOKEN = "7052994435:AAH_QxN4Xm-g3XvXg74Xb62g2P2w1l_xXXX"; 
     const TELEGRAM_CHAT_ID = "-8071055850"; 
@@ -471,13 +575,12 @@
         toast.className = `toast ${type}`;
         toast.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${msg}`;
         container.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
+        setTimeout(() => toast.remove(), 3500);
     };
 
-    window.copyBkashNumber = () => {
-        const num = document.getElementById('bkash-num-text').innerText;
+    window.copyNumber = (num) => {
         navigator.clipboard.writeText(num).then(() => {
-            showToast("bKash Number Copied: " + num);
+            showToast("নম্বর কপি হয়েছে: " + num);
         });
     };
 
@@ -518,7 +621,7 @@
             loader.classList.add('hidden');
         });
 
-        // Store Products Realtime
+        // Store Products Realtime with Stock Out Detection
         onValue(ref(db, 'store_management'), (snapshot) => {
             const grid = document.getElementById('products-grid-target');
             grid.innerHTML = '';
@@ -535,48 +638,182 @@
             keys.forEach(pKey => {
                 const prod = liveStoreProducts[pKey];
                 const pTitle = prod.productName || pKey.replace(/_/g, ' ');
-                const displayPrice = prod.priceRate || 0;
+
+                // Calculate total keys in stock across all plans
+                let totalStock = 0;
+                let minPrice = Infinity;
+
+                if (prod.plans && Array.isArray(prod.plans)) {
+                    prod.plans.forEach(pl => {
+                        const stockCount = pl.keys ? pl.keys.length : 0;
+                        totalStock += stockCount;
+                        if (pl.price && pl.price < minPrice) minPrice = pl.price;
+                    });
+                } else {
+                    totalStock = prod.availableKeys ? prod.availableKeys.length : 0;
+                    minPrice = prod.priceRate || 0;
+                }
+
+                if (minPrice === Infinity) minPrice = prod.priceRate || 0;
+
+                const isStockOut = totalStock <= 0;
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
 
-                // Poster Image or HTML Code
                 let posterHtml = '';
                 if (prod.imageCode && prod.imageCode.trim().startsWith('<')) {
                     posterHtml = `<div class="product-poster-wrapper">${prod.imageCode}</div>`;
                 } else {
-                    const posterSrc = prod.imageCode || 'https://i.imgur.com/8Qp4b4W.png';
+                    const posterSrc = prod.imageCode || 'https://i.ibb.co/m52N6nRj/1000076287.jpg';
                     posterHtml = `<div class="product-poster-wrapper"><img src="${posterSrc}" alt="${pTitle}"></div>`;
                 }
 
                 card.innerHTML = `
+                    ${isStockOut ? '<div class="stockout-badge">STOCK OUT</div>' : ''}
                     ${posterHtml}
                     <div class="product-title-pill">${pTitle}</div>
-                    <div class="product-price-txt">PRICE ${displayPrice}৳</div>
+                    <div class="product-price-txt">${isStockOut ? '<span style="color:var(--error-red);">STOCK OUT</span>' : `FROM ${minPrice}৳`}</div>
                     <button class="btn-card-setup" onclick="openSetupModal('${pKey}')">
                         <i class="fas fa-folder-open"></i> FILE & SETUP
                     </button>
-                    <button class="btn-card-buy" onclick="openBuyModal('${pKey}')">
-                        <i class="fas fa-shopping-cart"></i> BUY NOW
-                    </button>
+                    ${isStockOut ? `
+                        <button class="btn-card-buy disabled-stock" disabled>
+                            <i class="fas fa-ban"></i> STOCK OUT
+                        </button>
+                    ` : `
+                        <button class="btn-card-buy" onclick="openBuyModal('${pKey}')">
+                            <i class="fas fa-shopping-cart"></i> BUY NOW
+                        </button>
+                    `}
                 `;
                 grid.appendChild(card);
             });
         });
+
+        // Listen for user deposits
+        onValue(ref(db, 'deposit_requests'), (snapshot) => {
+            const histList = document.getElementById('deposit-history-list');
+            histList.innerHTML = '';
+            if (!snapshot.exists()) {
+                histList.innerHTML = `<p style="font-size:12px; color:#64748b; margin-top:10px; text-align:center;">No recent deposits found.</p>`;
+                return;
+            }
+
+            let found = 0;
+            snapshot.forEach(c => {
+                const d = c.val();
+                if (d.userId === currentUserId) {
+                    found++;
+                    const item = document.createElement('div');
+                    item.className = 'deposit-record-card';
+                    const isPaid = d.status === 'Approved';
+                    item.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <strong style="font-size:13px; color:#0f172a;"># TrxID: ${d.trxId || '31904'}</strong>
+                            <span class="${isPaid ? 'dep-badge-paid' : 'dep-badge-pending'}">${isPaid ? 'PAID' : 'PENDING'}</span>
+                        </div>
+                        <div style="font-size:11px; color:#64748b; display:flex; justify-content:space-between;">
+                            <span>৳${d.amount}</span>
+                            <span>Method: <strong>bKash</strong></span>
+                        </div>
+                    `;
+                    histList.prepend(item);
+                }
+            });
+
+            if (found === 0) {
+                histList.innerHTML = `<p style="font-size:12px; color:#64748b; margin-top:10px; text-align:center;">No recent deposits found.</p>`;
+            }
+        });
     }
 
-    // OPEN SCREENSHOT-LIKE FILE & SETUP POPUP
+    // DEPOSIT
+    document.getElementById('btn-trigger-addmoney').onclick = () => {
+        const amtInput = document.getElementById('inp-deposit-amount');
+        const amt = parseFloat(amtInput.value);
+
+        if (isNaN(amt) || amt < 1 || amt > 50000) {
+            return showToast("The amount field must be between 1 and 50000.", "error");
+        }
+
+        pendingDepositAmount = amt;
+        currentInvoice = "#H" + Math.random().toString(36).substring(2, 6).toUpperCase() + Math.floor(1000000 + Math.random() * 9000000);
+
+        const modal = document.getElementById('process-verification-modal');
+        modal.classList.remove('hidden');
+
+        setTimeout(() => {
+            document.getElementById('p-status-2').innerHTML = `<i class="fas fa-check step-check"></i>`;
+            document.getElementById('p-step-3').className = 'step-row-box active';
+            document.getElementById('p-status-3').innerHTML = `<div class="step-spinner"></div>`;
+
+            setTimeout(() => {
+                document.getElementById('p-status-3').innerHTML = `<i class="fas fa-check step-check"></i>`;
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.getElementById('gw-invoice-code').innerText = currentInvoice;
+                    document.getElementById('gw-pay-amount').innerText = pendingDepositAmount.toFixed(2);
+                    document.getElementById('gateway-selection-modal').classList.remove('hidden');
+                }, 600);
+            }, 1200);
+        }, 1500);
+    };
+
+    window.closeGatewayModal = () => {
+        document.getElementById('gateway-selection-modal').classList.add('hidden');
+        document.getElementById('gateway-trx-modal').classList.add('hidden');
+    };
+
+    window.proceedToTrxPage = () => {
+        document.getElementById('gateway-selection-modal').classList.add('hidden');
+        document.getElementById('trx-invoice-code').innerText = currentInvoice;
+        document.getElementById('trx-amount-show').innerText = pendingDepositAmount.toFixed(2);
+        document.getElementById('trx-input-value').value = '';
+        document.getElementById('gateway-trx-modal').classList.remove('hidden');
+    };
+
+    document.getElementById('btn-verify-payment').onclick = async () => {
+        const trxId = document.getElementById('trx-input-value').value.trim();
+        if (!trxId || trxId.length < 6) {
+            return showToast("সঠিক TrxID দিন!", "error");
+        }
+
+        loader.classList.remove('hidden');
+
+        try {
+            const depRef = push(ref(db, 'deposit_requests'));
+            await set(depRef, {
+                userId: currentUserId,
+                username: currentUserData.username,
+                amount: pendingDepositAmount,
+                senderNumber: "01860909272",
+                trxId: trxId.toUpperCase(),
+                invoice: currentInvoice,
+                method: 'bKash',
+                timestamp: new Date().toISOString(),
+                status: "Pending"
+            });
+
+            closeGatewayModal();
+            showToast("ডিপোজিট সাবমিট হয়েছে! অ্যাডমিন দ্রুত ভেরিফাই করবেন।");
+            document.getElementById('inp-deposit-amount').value = '';
+        } catch (e) {
+            showToast("ডিপোজিটে সমস্যা হয়েছে", "error");
+        } finally {
+            loader.classList.add('hidden');
+        }
+    };
+
+    // SETUP MODAL
     window.openSetupModal = (pKey) => {
         const prod = liveStoreProducts[pKey];
         if (!prod) return;
 
-        const pTitle = prod.productName || pKey.replace(/_/g, ' ');
-        document.getElementById('popup-panel-title').innerText = pTitle;
-
-        // Dynamic links from Admin
+        document.getElementById('popup-panel-title').innerText = prod.productName || pKey;
         document.getElementById('popup-yt-btn').href = prod.setupVideoUrl || 'https://youtube.com';
-        document.getElementById('popup-apk-btn').href = prod.apkFileUrl || 'https://t.me/@DEVBRONX';
-        document.getElementById('popup-feedback-btn').href = prod.feedbackUrl || 'https://t.me/@DEVBRONX';
+        document.getElementById('popup-apk-btn').href = prod.apkFileUrl || 'https://t.me/DEVBRONX';
+        document.getElementById('popup-feedback-btn').href = prod.feedbackUrl || 'https://t.me/DEVBRONX';
 
         document.getElementById('setup-popup-modal').classList.remove('hidden');
     };
@@ -585,19 +822,54 @@
         document.getElementById('setup-popup-modal').classList.add('hidden');
     };
 
-    // BUY MODAL
+    // BUY MODAL WITH SPECIFIC DURATION AND STOCK CHECKS
     window.openBuyModal = (pKey) => {
-        selectedBuyProduct = liveStoreProducts[pKey];
-        if (!selectedBuyProduct) return;
+        selectedBuyProductKey = pKey;
+        const prod = liveStoreProducts[pKey];
+        if (!prod) return;
 
-        document.getElementById('modal-prod-title').innerText = selectedBuyProduct.productName || pKey;
+        document.getElementById('modal-prod-title').innerText = prod.productName || pKey;
         const durSelect = document.getElementById('modal-duration-select');
         durSelect.innerHTML = '';
 
-        const opt = document.createElement('option');
-        opt.value = JSON.stringify({ days: selectedBuyProduct.daysPlan || '1 Day', price: selectedBuyProduct.priceRate || 0 });
-        opt.innerText = `${selectedBuyProduct.daysPlan || '1 Day'} - ৳${selectedBuyProduct.priceRate || 0}`;
-        durSelect.appendChild(opt);
+        let hasAnyAvailablePlan = false;
+
+        if (prod.plans && Array.isArray(prod.plans)) {
+            prod.plans.forEach((pl, idx) => {
+                const stock = pl.keys ? pl.keys.length : 0;
+                const isPlanOut = stock <= 0;
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.innerText = `${pl.duration} - ৳${pl.price} ${isPlanOut ? '(Stock Out)' : `(${stock} Keys Left)`}`;
+                if (isPlanOut) {
+                    opt.disabled = true;
+                } else {
+                    hasAnyAvailablePlan = true;
+                }
+                durSelect.appendChild(opt);
+            });
+        } else {
+            // Fallback for single plan
+            const stock = prod.availableKeys ? prod.availableKeys.length : 0;
+            const opt = document.createElement('option');
+            opt.value = 0;
+            opt.innerText = `${prod.daysPlan || '1 Day'} - ৳${prod.priceRate || 0} (${stock} Keys Left)`;
+            if (stock <= 0) opt.disabled = true;
+            else hasAnyAvailablePlan = true;
+            durSelect.appendChild(opt);
+        }
+
+        if (!hasAnyAvailablePlan) {
+            return showToast("দুঃখিত! এই প্যানেলের সব কী স্টক আউট হয়ে গেছে।", "error");
+        }
+
+        // Auto select first available plan
+        for (let i = 0; i < durSelect.options.length; i++) {
+            if (!durSelect.options[i].disabled) {
+                durSelect.selectedIndex = i;
+                break;
+            }
+        }
 
         document.getElementById('modal-qty-input').value = 1;
         calculateModalTotal();
@@ -609,55 +881,118 @@
     };
 
     window.calculateModalTotal = () => {
-        const select = document.getElementById('modal-duration-select');
+        const prod = liveStoreProducts[selectedBuyProductKey];
+        const durSelect = document.getElementById('modal-duration-select');
         const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
-        if (!select.value) return;
 
-        const plan = JSON.parse(select.value);
-        const total = plan.price * qty;
+        if (!prod || durSelect.value === "") return;
+
+        let price = 0;
+        if (prod.plans && Array.isArray(prod.plans)) {
+            const plan = prod.plans[parseInt(durSelect.value)];
+            price = plan ? plan.price : 0;
+        } else {
+            price = prod.priceRate || 0;
+        }
+
+        const total = price * qty;
         document.getElementById('modal-total-price').innerText = `৳${total.toFixed(2)}`;
     };
 
+    // EXECUTE PURCHASE
     window.executePurchase = async () => {
-        const select = document.getElementById('modal-duration-select');
+        const durSelect = document.getElementById('modal-duration-select');
         const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
-        if (!select.value) return;
 
-        const plan = JSON.parse(select.value);
-        const totalCost = plan.price * qty;
-        const userBal = parseFloat(currentUserData.balance || 0);
-
-        if (userBal < totalCost) {
-            return showToast(`ব্যালেন্স পর্যাপ্ত নয়! প্রয়োজন ৳${totalCost.toFixed(2)}`, 'error');
-        }
+        if (durSelect.value === "" || qty <= 0) return;
 
         loader.classList.remove('hidden');
 
         try {
-            const newBal = userBal - totalCost;
-            const newKey = `FRG-${Math.random().toString(36).substr(2, 8).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+            // Fresh read from DB to prevent concurrent conflicts
+            const prodSnap = await get(ref(db, `store_management/${selectedBuyProductKey}`));
+            if (!prodSnap.exists()) {
+                loader.classList.add('hidden');
+                return showToast("প্যানেল খুঁজে পাওয়া যায়নি!", 'error');
+            }
 
+            const pData = prodSnap.val();
+            let selectedPlan = null;
+            let updatedPlans = [];
+
+            if (pData.plans && Array.isArray(pData.plans)) {
+                updatedPlans = [...pData.plans];
+                selectedPlan = updatedPlans[parseInt(durSelect.value)];
+            } else {
+                // Fallback for older single plan format
+                selectedPlan = {
+                    duration: pData.daysPlan || "1 Day",
+                    price: pData.priceRate || 0,
+                    keys: pData.availableKeys || []
+                };
+            }
+
+            if (!selectedPlan || !selectedPlan.keys) {
+                loader.classList.add('hidden');
+                return showToast("প্ল্যান পাওয়া যায়নি!", 'error');
+            }
+
+            const totalCost = selectedPlan.price * qty;
+            const userBal = parseFloat(currentUserData.balance || 0);
+
+            if (userBal < totalCost) {
+                loader.classList.add('hidden');
+                return showToast(`ব্যালেন্স পর্যাপ্ত নয়! প্রয়োজন ৳${totalCost.toFixed(2)}`, 'error');
+            }
+
+            if (selectedPlan.keys.length < qty) {
+                loader.classList.add('hidden');
+                return showToast(`পর্যাপ্ত কী নেই! ${selectedPlan.duration} মেয়াদে মাত্র ${selectedPlan.keys.length} টি কী স্টকে আছে।`, 'error');
+            }
+
+            // Pick random keys for that duration
+            const assignedKeys = [];
+            for (let i = 0; i < qty; i++) {
+                const randIndex = Math.floor(Math.random() * selectedPlan.keys.length);
+                assignedKeys.push(selectedPlan.keys.splice(randIndex, 1)[0]);
+            }
+
+            // Update Database with deducted keys
+            if (pData.plans && Array.isArray(pData.plans)) {
+                await update(ref(db, `store_management/${selectedBuyProductKey}`), {
+                    plans: updatedPlans
+                });
+            } else {
+                await update(ref(db, `store_management/${selectedBuyProductKey}`), {
+                    availableKeys: selectedPlan.keys
+                });
+            }
+
+            // Deduct user balance
+            const newBal = userBal - totalCost;
+            await update(ref(db, `users/${currentUserId}`), { balance: newBal });
+
+            // Store in User's Generated Keys History with selected duration
             const keyRef = push(ref(db, `users/${currentUserId}/generatedKeys`));
             await set(keyRef, {
-                product: selectedBuyProduct.productName || 'Product',
-                duration: plan.days,
+                product: pData.productName || selectedBuyProductKey,
+                duration: selectedPlan.duration,
                 qty: qty,
-                keyCode: newKey,
+                keys: assignedKeys,
                 timestamp: new Date().toISOString()
             });
 
-            await update(ref(db, `users/${currentUserId}`), { balance: newBal });
-
-            showToast("কয়টি সফলভাবে তৈরি হয়েছে!");
+            showToast(`${selectedPlan.duration} মেয়াদের কী সফলভাবে কেনা হয়েছে!`);
             closeBuyModal();
             switchTab('tab-mykeys');
         } catch (err) {
-            showToast("ত্রুটি হয়েছে!", "error");
+            showToast("ত্রুটি হয়েছে! আবার চেষ্টা করুন।", "error");
         } finally {
             loader.classList.add('hidden');
         }
     };
 
+    // RENDER PURCHASED KEYS
     function renderPurchasedKeys(keysObj) {
         const target = document.getElementById('user-keys-target');
         if (!keysObj) {
@@ -669,65 +1004,41 @@
         Object.values(keysObj).reverse().forEach(k => {
             const box = document.createElement('div');
             box.className = 'keys-card';
+
+            let keysRows = '';
+            if (k.keys && Array.isArray(k.keys)) {
+                keysRows = k.keys.map((keyValue, index) => {
+                    const label = k.keys.length > 1 ? `Key ${index + 1}: ` : '';
+                    return `
+                        <div class="key-copy-row">
+                            <span><strong>${label}</strong>${keyValue}</span>
+                            <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${keyValue}'); showToast('Key Copied!')"></i>
+                        </div>
+                    `;
+                }).join('');
+            } else if (k.keyCode) {
+                keysRows = `
+                    <div class="key-copy-row">
+                        <span>${k.keyCode}</span>
+                        <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${k.keyCode}'); showToast('Key Copied!')"></i>
+                    </div>
+                `;
+            }
+
             box.innerHTML = `
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <strong style="font-size:14px;">${k.product}</strong>
-                    <span style="font-size:11px; background:#222036; padding:3px 8px; border-radius:6px; color:var(--neon-green);">${k.duration}</span>
+                    <span style="font-size:11px; background:rgba(0,255,115,0.1); border:1px solid rgba(0,255,115,0.3); padding:3px 8px; border-radius:6px; color:var(--neon-green); font-weight:700;">
+                        ${k.duration || 'Standard'}
+                    </span>
                 </div>
-                <div class="key-copy-row">
-                    <span>${k.keyCode}</span>
-                    <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${k.keyCode}'); showToast('Key Copied!')"></i>
-                </div>
+                ${keysRows}
             `;
             target.appendChild(box);
         });
     }
 
-    // bKash Submit
-    document.getElementById('btn-submit-bkash').onclick = async () => {
-        const amt = document.getElementById('dep-amount').value.trim();
-        const sender = document.getElementById('dep-sender').value.trim();
-        const trxid = document.getElementById('dep-trxid').value.trim();
-
-        if (!amt || parseFloat(amt) < 20) return showToast("কমপক্ষে ৳20 জমা দিন", "error");
-        if (!sender || sender.length < 11) return showToast("সঠিক বিকাশ নাম্বার দিন", "error");
-        if (!trxid || trxid.length < 6) return showToast("সঠিক TrxID দিন", "error");
-
-        loader.classList.remove('hidden');
-
-        try {
-            const depRef = push(ref(db, 'deposit_requests'));
-            await set(depRef, {
-                userId: currentUserId,
-                username: currentUserData.username,
-                amount: parseFloat(amt),
-                senderNumber: sender,
-                trxId: trxid,
-                method: "bKash",
-                timestamp: new Date().toISOString(),
-                status: "Pending"
-            });
-
-            const telegramMsg = `💰 *New bKash Deposit (FRG STORE)* 💰\n\n👤 *User:* @${currentUserData.username.toUpperCase()}\n📱 *Sender No:* \`${sender}\`\n💵 *Amount:* ৳${amt}\n🔢 *TrxID:* \`${trxid}\`\n⏰ *Time:* ${new Date().toLocaleString()}`;
-
-            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: telegramMsg, parse_mode: 'Markdown' })
-            });
-
-            showToast("ডিপোজিট সাবমিট হয়েছে! অ্যাডমিন অনুমোদন করবেন।");
-            document.getElementById('dep-amount').value = '';
-            document.getElementById('dep-sender').value = '';
-            document.getElementById('dep-trxid').value = '';
-        } catch (e) {
-            showToast("ডিপোজিটে সমস্যা হয়েছে", "error");
-        } finally {
-            loader.classList.add('hidden');
-        }
-    };
-
-    // Update Password
+    // Password Update
     document.getElementById('btn-update-pass').onclick = async () => {
         const newPass = document.getElementById('acc-new-pass').value.trim();
         if (newPass.length < 6) return showToast("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে", "error");
@@ -739,7 +1050,7 @@
         document.getElementById('acc-new-pass').value = '';
     };
 
-    // Login & Register
+    // Auth
     document.getElementById('btn-login').onclick = async () => {
         const u = document.getElementById('login-username').value.trim().toLowerCase();
         const p = document.getElementById('login-password').value.trim();
@@ -811,4 +1122,4 @@
     };
 </script>
 </body>
-</html>
+    </html>
