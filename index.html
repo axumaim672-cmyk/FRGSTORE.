@@ -144,12 +144,12 @@
 
         /* MODALS */
         .process-modal-backdrop, .gateway-modal-backdrop, .setup-modal-backdrop, .modal-backdrop {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
-            z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 18px;
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px);
+            z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 16px;
         }
         .process-modal-box, .gateway-window {
-            background: #ffffff; width: 100%; max-width: 400px; border-radius: 22px;
-            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            background: #ffffff; width: 100%; max-width: 390px; border-radius: 22px;
+            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
         .process-modal-top { background: #00aa38; padding: 18px; display: flex; align-items: center; gap: 14px; color: white; }
         .process-logo-wrap { width: 50px; height: 50px; border-radius: 12px; overflow: hidden; background: #000; }
@@ -167,29 +167,65 @@
         .step-spinner { width: 18px; height: 18px; border: 2.5px solid #dcfce7; border-top-color: #00a859; border-radius: 50%; animation: spin 0.8s linear infinite; }
         .step-check { color: #00a859; font-size: 18px; font-weight: 900; }
 
-        /* GATEWAY */
-        .gw-top-nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid #f1f5f9; color: #64748b; }
-        .gw-brand-center { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; padding-top: 10px; }
-        .gw-brand-logo { width: 45px; height: 45px; border-radius: 10px; object-fit: cover; }
-        .gw-methods-grid { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 15px 16px 20px; }
-        .gw-method-card {
-            border: 2px solid #e2136e; background: #fff0f6; border-radius: 14px; padding: 16px 10px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;
+        /* BKASH TRANSACTION PAGE (SCREENSHOT 2) */
+        .gw-top-bar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 18px; border-bottom: 1px solid #f1f5f9; color: #334155;
         }
-        .gw-method-badge { position: absolute; top: -8px; right: 10px; background: #00b488; color: white; font-size: 9px; font-weight: 800; padding: 2px 8px; border-radius: 10px; }
-        .gw-method-logo { height: 45px; max-width: 170px; object-fit: contain; }
-        .gw-bottom-pay { background: #e2136e; color: white; font-weight: 800; font-size: 15px; height: 50px; border: none; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .gw-store-header {
+            display: flex; align-items: center; gap: 12px; padding: 12px 18px 6px;
+        }
+        .gw-store-img {
+            width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 1.5px solid #00ff73;
+        }
+        .gw-store-info h4 { font-size: 15px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.2; }
+        .gw-store-info p { font-size: 12px; color: #64748b; margin-top: 3px; font-weight: 600; }
+        .gw-store-info p strong { color: #e2136e; font-family: monospace; font-size: 13px; }
 
-        /* BKASH TRANSACTION */
-        .bkash-step2-wrapper { padding: 12px 14px 20px; }
-        .bkash-logo-big { height: 42px; display: block; margin: 4px auto 12px; object-fit: contain; }
-        .bkash-pink-box { background: #d61464; border-radius: 18px; padding: 18px 16px; color: white; }
-        .trx-input-holder { position: relative; background: #ffffff; border-radius: 12px; margin-bottom: 16px; padding: 8px 12px; }
-        .trx-input-floating-label { position: absolute; top: -10px; left: 12px; background: #ffffff; color: #d61464; font-size: 10px; font-weight: 800; padding: 0 6px; border-radius: 4px; }
-        .trx-actual-input { width: 100%; border: none; outline: none; font-size: 15px; font-weight: 700; color: #0f172a; text-transform: uppercase; }
-        .bkash-instructions-list { font-size: 11px; line-height: 1.8; list-style: none; margin-bottom: 16px; }
-        .copy-pill-btn { background: rgba(255,255,255,0.25); border: none; color: white; font-size: 10px; font-weight: 800; padding: 2px 8px; border-radius: 6px; cursor: pointer; margin-left: 6px; }
-        .btn-bkash-verify-submit { width: 100%; height: 46px; background: #a50a49; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 14px; cursor: pointer; }
+        .bkash-center-logo {
+            text-align: center; padding: 10px 0 14px;
+        }
+        .bkash-center-logo img {
+            height: 38px; object-fit: contain;
+        }
+
+        .bkash-panel-wrap { padding: 0 16px 18px; }
+        .bkash-pink-container {
+            background: #d61464; border-radius: 20px; padding: 18px 16px 14px; color: white;
+            box-shadow: 0 10px 25px rgba(214, 20, 100, 0.25);
+        }
+        .bkash-pink-title {
+            text-align: center; font-size: 15px; font-weight: 800; margin-bottom: 16px; letter-spacing: 0.3px;
+        }
+        .trx-input-wrapper {
+            position: relative; background: #ffffff; border-radius: 12px; margin-bottom: 18px; padding: 8px 14px;
+        }
+        .trx-label-floating {
+            position: absolute; top: -10px; left: 14px; background: #ffffff; color: #d61464;
+            font-size: 11px; font-weight: 800; padding: 0 6px; border-radius: 4px;
+        }
+        .trx-input-field {
+            width: 100%; border: none; outline: none; font-size: 15px; font-weight: 700;
+            color: #0f172a; text-transform: uppercase; background: transparent; height: 28px;
+        }
+        .trx-instruction-box {
+            border-top: 1px dashed rgba(255, 255, 255, 0.3);
+            padding-top: 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.8;
+        }
+        .trx-instruction-item {
+            display: flex; align-items: center; justify-content: flex-start; gap: 4px; flex-wrap: wrap; margin-bottom: 6px;
+        }
+        .btn-copy-num {
+            background: rgba(255, 255, 255, 0.28); border: none; color: white; font-size: 11px;
+            font-weight: 700; padding: 2px 10px; border-radius: 8px; cursor: pointer; transition: 0.2s;
+        }
+        .btn-copy-num:active { transform: scale(0.95); }
+        .btn-verify-main {
+            width: 100%; height: 48px; background: #9c0b46; color: white; border: none;
+            border-radius: 12px; font-weight: 800; font-size: 15px; cursor: pointer;
+            text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; margin-top: 4px;
+        }
+        .btn-verify-main:active { background: #7c0736; }
 
         /* SETUP MODAL */
         .setup-modal-box { background: #161a29; width: 100%; max-width: 380px; border-radius: 24px; border: 2px solid #00ff73; padding: 22px 18px; }
@@ -214,8 +250,59 @@
 
         .floating-support { position: fixed; bottom: 80px; right: 18px; width: 50px; height: 50px; background: #25d366; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; z-index: 990; text-decoration: none; }
 
-        .keys-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; }
-        .key-copy-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; font-family: monospace; color: var(--neon-green); font-size: 13px; font-weight: 700; }
+        /* MY KEYS CARD (SCREENSHOT 1) */
+        .panel-order-card {
+            background: #ffffff; border-radius: 22px; padding: 18px; margin-bottom: 16px;
+            color: #1e293b; box-shadow: 0 8px 24px rgba(0,0,0,0.3); border: 1.5px solid #e2e8f0;
+        }
+        .panel-order-header {
+            display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+        }
+        .panel-order-logo {
+            width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #00a859;
+            flex-shrink: 0; background: #0f172a;
+        }
+        .panel-order-title-wrap h4 {
+            font-size: 15px; font-weight: 800; color: #0f172a; line-height: 1.2; text-transform: uppercase;
+        }
+        .panel-duration-pill {
+            display: inline-block; background: #e0f2fe; color: #0284c7; font-size: 11px;
+            font-weight: 800; padding: 2px 10px; border-radius: 20px; margin-top: 5px; text-transform: uppercase;
+        }
+        .panel-divider-dashed {
+            border: none; border-top: 1.5px dashed #cbd5e1; margin: 14px 0;
+        }
+        .panel-detail-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 12px;
+            padding: 10px 14px; margin-bottom: 8px; font-size: 13px; font-weight: 600;
+        }
+        .panel-row-lbl { color: #64748b; display: flex; align-items: center; gap: 8px; font-weight: 700; }
+        .panel-row-val { color: #0f172a; font-weight: 800; }
+        .panel-status-completed {
+            background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 20px;
+        }
+        .panel-key-label {
+            font-size: 12px; font-weight: 800; color: #475569; display: flex; align-items: center; gap: 6px; margin: 12px 0 6px;
+        }
+        .panel-key-code-box {
+            border: 2px dashed #a855f7; background: #faf5ff; border-radius: 12px;
+            padding: 12px 14px; font-family: monospace; font-size: 15px; font-weight: 800;
+            color: #4c1d95; letter-spacing: 1px; word-break: break-all; margin-bottom: 12px; text-align: center;
+        }
+        .panel-actions-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+        }
+        .btn-order-copy {
+            background: #4f46e5; color: white; border: none; height: 42px; border-radius: 12px;
+            font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            gap: 6px; cursor: pointer; transition: 0.2s;
+        }
+        .btn-order-review {
+            background: #7c3aed; color: white; border: none; height: 42px; border-radius: 12px;
+            font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            gap: 6px; cursor: pointer; text-decoration: none; transition: 0.2s;
+        }
     </style>
 </head>
 <body>
@@ -327,9 +414,12 @@
             </div>
         </section>
 
-        <!-- TAB 3: MY KEYS -->
+        <!-- TAB 3: MY KEYS (UPDATED WITH LOGO & PRICE) -->
         <section id="view-mykeys" class="hidden">
-            <h3 style="font-size:15px; font-weight:700; margin-bottom: 12px;">🔑 Purchased Keys History</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 14px;">
+                <h3 style="font-size:16px; font-weight:800;">🔑 Purchased Keys History</h3>
+                <span style="font-size:12px; color:var(--neon-green); font-weight:700;" id="user-keys-count">0 Orders</span>
+            </div>
             <div id="user-keys-target">
                 <p style="text-align:center; color:var(--text-muted); margin-top:30px; font-size:13px;">No keys generated yet.</p>
             </div>
@@ -391,7 +481,7 @@
                     <div class="step-icon-badge icon-green"><i class="fas fa-user"></i></div>
                     <div>
                         <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 01</span>
-                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">User</h4>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">User Verification</h4>
                     </div>
                 </div>
                 <div id="p-status-1"><i class="fas fa-check step-check"></i></div>
@@ -402,7 +492,7 @@
                     <div class="step-icon-badge icon-green"><i class="fas fa-server"></i></div>
                     <div>
                         <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 02</span>
-                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Product Server</h4>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Gateway Server</h4>
                     </div>
                 </div>
                 <div id="p-status-2"><div class="step-spinner"></div></div>
@@ -413,7 +503,7 @@
                     <div class="step-icon-badge icon-gray"><i class="fas fa-check"></i></div>
                     <div>
                         <span style="font-size:10px; font-weight:800; color:#64748b;">STEP 03</span>
-                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Complete</h4>
+                        <h4 style="font-size:13px; font-weight:800; color:#0f172a;">Direct Gateway</h4>
                     </div>
                 </div>
                 <div id="p-status-3"><i class="far fa-circle" style="color:#94a3b8"></i></div>
@@ -422,61 +512,48 @@
     </div>
 </div>
 
-<!-- MODAL 2: BKASH SELECTOR -->
-<div class="gateway-modal-backdrop hidden" id="gateway-selection-modal">
+<!-- MODAL 2: BKASH TRANSACTION SUBMIT -->
+<div class="gateway-modal-backdrop hidden" id="gateway-trx-modal">
     <div class="gateway-window">
-        <div class="gw-top-nav">
-            <i class="fas fa-home" style="font-size:18px;"></i>
+        <div class="gw-top-bar">
+            <i class="fas fa-home" style="font-size:18px; cursor:pointer;" onclick="closeGatewayModal()"></i>
             <i class="fas fa-times" onclick="closeGatewayModal()" style="font-size:20px; cursor:pointer;"></i>
         </div>
-        <div class="gw-brand-center">
-            <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="FRG" class="gw-brand-logo"/>
-            <h4 style="font-size:14px; font-weight:800; color:#0f172a;">FRG STORE</h4>
-            <div style="font-size:11px; color:#64748b;">Invoice: <strong id="gw-invoice-code" style="color:#e2136e;">#H3FB95783244</strong></div>
-        </div>
 
-        <div class="gw-methods-grid">
-            <div class="gw-method-card">
-                <span class="gw-method-badge">PERSONAL</span>
-                <img src="https://i.ibb.co/PvbcWbNF/1000076293.jpg" alt="bKash" class="gw-method-logo"/>
+        <div class="gw-store-header">
+            <img src="https://i.ibb.co/m52N6nRj/1000076287.jpg" alt="Logo" class="gw-store-img"/>
+            <div class="gw-store-info">
+                <h4>FRG STORE</h4>
+                <p>Invoice: <strong id="trx-invoice-code">#H3FB95783244</strong></p>
             </div>
         </div>
 
-        <button class="gw-bottom-pay" onclick="proceedToTrxPage()">
-            PAY ৳<span id="gw-pay-amount">50.00</span>
-        </button>
-    </div>
-</div>
-
-<!-- MODAL 3: BKASH SUBMIT -->
-<div class="gateway-modal-backdrop hidden" id="gateway-trx-modal">
-    <div class="gateway-window">
-        <div class="gw-top-nav">
-            <i class="fas fa-home" style="font-size:18px;"></i>
-            <i class="fas fa-times" onclick="closeGatewayModal()" style="font-size:20px; cursor:pointer;"></i>
+        <div class="bkash-center-logo">
+            <img src="https://i.ibb.co/PvbcWbNF/1000076293.jpg" alt="bKash"/>
         </div>
 
-        <div class="bkash-step2-wrapper">
-            <img src="https://i.ibb.co/PvbcWbNF/1000076293.jpg" alt="bKash" class="bkash-logo-big"/>
-            <div class="bkash-pink-box">
-                <h4 style="text-align:center; font-size:14px; font-weight:800; margin-bottom:12px;">ট্রানজেকশন আইডি দিন</h4>
+        <div class="bkash-panel-wrap">
+            <div class="bkash-pink-container">
+                <h4 class="bkash-pink-title">ট্রানজেকশন আইডি দিন</h4>
 
-                <div class="trx-input-holder">
-                    <span class="trx-input-floating-label">ট্রানজেকশন আইডি লিখুন</span>
-                    <input type="text" class="trx-actual-input" id="trx-input-value" placeholder="8N7X6K9LM" maxlength="16"/>
+                <div class="trx-input-wrapper">
+                    <span class="trx-label-floating">ট্রানজেকশন আইডি লিখুন</span>
+                    <input type="text" class="trx-input-field" id="trx-input-value" placeholder="8N7X6K9LM" maxlength="16"/>
                 </div>
 
-                <ul class="bkash-instructions-list">
-                    <li>• *247# অথবা bKash অ্যাপে যান।</li>
-                    <li>
-                        • "Send Money" নম্বরঃ <strong>01860909272</strong>
-                        <button class="copy-pill-btn" onclick="copyNumber('01860909272')">Copy</button>
-                    </li>
-                    <li>• পরিমাণঃ <strong>৳<span id="trx-amount-show">50.00</span></strong></li>
-                    <li>• TrxID উপরে লিখে Verify বাটনে চাপুন।</li>
-                </ul>
+                <div class="trx-instruction-box">
+                    <div class="trx-instruction-item">• *247# ডায়াল করে bKash মেনু বা অ্যাপে যান।</div>
+                    <div class="trx-instruction-item">
+                        • <strong>"Send Money"</strong> করুন। নম্বরঃ <strong style="letter-spacing:0.5px;">01860909272</strong>
+                        <button class="btn-copy-num" onclick="copyNumber('01860909272')">Copy</button>
+                    </div>
+                    <div class="trx-instruction-item">
+                        • পরিমাণঃ <strong>৳<span id="trx-amount-show">50.00</span></strong> দিয়ে পিন দিন।
+                    </div>
+                    <div class="trx-instruction-item">• সবশেষে উপরের বক্সে <strong>TrxID</strong> দিয়ে ভেরিফাই করুন।</div>
+                </div>
 
-                <button class="btn-bkash-verify-submit" id="btn-verify-payment">VERIFY</button>
+                <button class="btn-verify-main" id="btn-verify-payment">VERIFY</button>
             </div>
         </div>
     </div>
@@ -555,10 +632,18 @@
     let pendingDepositAmount = 50;
     let currentInvoice = "";
 
-    const TELEGRAM_BOT_TOKEN = "7052994435:AAH_QxN4Xm-g3XvXg74Xb62g2P2w1l_xXXX"; 
-    const TELEGRAM_CHAT_ID = "-8071055850"; 
-
     const loader = document.getElementById('loader');
+
+    // Utility: Extract pure Image URL even if admin provides full <img> HTML
+    function extractPureImageUrl(str) {
+        if (!str) return '';
+        str = String(str).trim();
+        if (str.startsWith('<')) {
+            const match = str.match(/src=["']([^"']+)["']/i);
+            if (match && match[1]) return match[1];
+        }
+        return str;
+    }
 
     window.addEventListener('load', () => {
         const savedUid = localStorage.getItem('frg_user_uid');
@@ -581,6 +666,12 @@
     window.copyNumber = (num) => {
         navigator.clipboard.writeText(num).then(() => {
             showToast("নম্বর কপি হয়েছে: " + num);
+        });
+    };
+
+    window.copyKeyToClipboard = (key) => {
+        navigator.clipboard.writeText(key).then(() => {
+            showToast("কী কোড কপি করা হয়েছে!");
         });
     };
 
@@ -639,7 +730,6 @@
                 const prod = liveStoreProducts[pKey];
                 const pTitle = prod.productName || pKey.replace(/_/g, ' ');
 
-                // Calculate total keys in stock across all plans
                 let totalStock = 0;
                 let minPrice = Infinity;
 
@@ -655,25 +745,19 @@
                 }
 
                 if (minPrice === Infinity) minPrice = prod.priceRate || 0;
-
                 const isStockOut = totalStock <= 0;
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
 
-                let posterHtml = '';
-                if (prod.imageCode && prod.imageCode.trim().startsWith('<')) {
-                    posterHtml = `<div class="product-poster-wrapper">${prod.imageCode}</div>`;
-                } else {
-                    const posterSrc = prod.imageCode || 'https://i.ibb.co/m52N6nRj/1000076287.jpg';
-                    posterHtml = `<div class="product-poster-wrapper"><img src="${posterSrc}" alt="${pTitle}"></div>`;
-                }
+                const rawImg = prod.imageCode || prod.imageUrl || prod.image || prod.productImage || prod.logo || '';
+                const posterSrc = extractPureImageUrl(rawImg) || 'https://i.ibb.co/m52N6nRj/1000076287.jpg';
 
                 card.innerHTML = `
                     ${isStockOut ? '<div class="stockout-badge">STOCK OUT</div>' : ''}
-                    ${posterHtml}
+                    <div class="product-poster-wrapper"><img src="${posterSrc}" alt="${pTitle}"></div>
                     <div class="product-title-pill">${pTitle}</div>
-                    <div class="product-price-txt">${isStockOut ? '<span style="color:var(--error-red);">STOCK OUT</span>' : `FROM ${minPrice}৳`}</div>
+                    <div class="product-price-txt">${isStockOut ? '<span style="color:var(--error-red);">STOCK OUT</span>' : `FROM ৳${minPrice}`}</div>
                     <button class="btn-card-setup" onclick="openSetupModal('${pKey}')">
                         <i class="fas fa-folder-open"></i> FILE & SETUP
                     </button>
@@ -689,6 +773,11 @@
                 `;
                 grid.appendChild(card);
             });
+
+            // Re-render keys to update logos if products loaded
+            if (currentUserData && currentUserData.generatedKeys) {
+                renderPurchasedKeys(currentUserData.generatedKeys);
+            }
         });
 
         // Listen for user deposits
@@ -728,7 +817,7 @@
         });
     }
 
-    // DEPOSIT
+    // ADD MONEY TRIGGER & MODAL TRANSITION
     document.getElementById('btn-trigger-addmoney').onclick = () => {
         const amtInput = document.getElementById('inp-deposit-amount');
         const amt = parseFloat(amtInput.value);
@@ -740,8 +829,13 @@
         pendingDepositAmount = amt;
         currentInvoice = "#H" + Math.random().toString(36).substring(2, 6).toUpperCase() + Math.floor(1000000 + Math.random() * 9000000);
 
-        const modal = document.getElementById('process-verification-modal');
-        modal.classList.remove('hidden');
+        document.getElementById('p-status-1').innerHTML = `<i class="fas fa-check step-check"></i>`;
+        document.getElementById('p-status-2').innerHTML = `<div class="step-spinner"></div>`;
+        document.getElementById('p-step-3').className = 'step-row-box waiting';
+        document.getElementById('p-status-3').innerHTML = `<i class="far fa-circle" style="color:#94a3b8"></i>`;
+
+        const verifyModal = document.getElementById('process-verification-modal');
+        verifyModal.classList.remove('hidden');
 
         setTimeout(() => {
             document.getElementById('p-status-2').innerHTML = `<i class="fas fa-check step-check"></i>`;
@@ -751,28 +845,21 @@
             setTimeout(() => {
                 document.getElementById('p-status-3').innerHTML = `<i class="fas fa-check step-check"></i>`;
                 setTimeout(() => {
-                    modal.classList.add('hidden');
-                    document.getElementById('gw-invoice-code').innerText = currentInvoice;
-                    document.getElementById('gw-pay-amount').innerText = pendingDepositAmount.toFixed(2);
-                    document.getElementById('gateway-selection-modal').classList.remove('hidden');
-                }, 600);
-            }, 1200);
-        }, 1500);
+                    verifyModal.classList.add('hidden');
+                    document.getElementById('trx-invoice-code').innerText = currentInvoice;
+                    document.getElementById('trx-amount-show').innerText = pendingDepositAmount.toFixed(2);
+                    document.getElementById('trx-input-value').value = '';
+                    document.getElementById('gateway-trx-modal').classList.remove('hidden');
+                }, 500);
+            }, 1000);
+        }, 1200);
     };
 
     window.closeGatewayModal = () => {
-        document.getElementById('gateway-selection-modal').classList.add('hidden');
         document.getElementById('gateway-trx-modal').classList.add('hidden');
     };
 
-    window.proceedToTrxPage = () => {
-        document.getElementById('gateway-selection-modal').classList.add('hidden');
-        document.getElementById('trx-invoice-code').innerText = currentInvoice;
-        document.getElementById('trx-amount-show').innerText = pendingDepositAmount.toFixed(2);
-        document.getElementById('trx-input-value').value = '';
-        document.getElementById('gateway-trx-modal').classList.remove('hidden');
-    };
-
+    // VERIFY & SUBMIT DEPOSIT
     document.getElementById('btn-verify-payment').onclick = async () => {
         const trxId = document.getElementById('trx-input-value').value.trim();
         if (!trxId || trxId.length < 6) {
@@ -796,10 +883,10 @@
             });
 
             closeGatewayModal();
-            showToast("ডিপোজিট সাবমিট হয়েছে! অ্যাডমিন দ্রুত ভেরিফাই করবেন।");
+            showToast("ডিপোজিট সফলভাবে সাবমিট হয়েছে! অপেক্ষা করুন।");
             document.getElementById('inp-deposit-amount').value = '';
         } catch (e) {
-            showToast("ডিপোজিটে সমস্যা হয়েছে", "error");
+            showToast("ডিপোজিটে সমস্যা হয়েছে! আবার চেষ্টা করুন।", "error");
         } finally {
             loader.classList.add('hidden');
         }
@@ -822,7 +909,7 @@
         document.getElementById('setup-popup-modal').classList.add('hidden');
     };
 
-    // BUY MODAL WITH SPECIFIC DURATION AND STOCK CHECKS
+    // BUY MODAL
     window.openBuyModal = (pKey) => {
         selectedBuyProductKey = pKey;
         const prod = liveStoreProducts[pKey];
@@ -849,7 +936,6 @@
                 durSelect.appendChild(opt);
             });
         } else {
-            // Fallback for single plan
             const stock = prod.availableKeys ? prod.availableKeys.length : 0;
             const opt = document.createElement('option');
             opt.value = 0;
@@ -863,7 +949,6 @@
             return showToast("দুঃখিত! এই প্যানেলের সব কী স্টক আউট হয়ে গেছে।", "error");
         }
 
-        // Auto select first available plan
         for (let i = 0; i < durSelect.options.length; i++) {
             if (!durSelect.options[i].disabled) {
                 durSelect.selectedIndex = i;
@@ -899,7 +984,7 @@
         document.getElementById('modal-total-price').innerText = `৳${total.toFixed(2)}`;
     };
 
-    // EXECUTE PURCHASE
+    // EXECUTE PURCHASE (SAVE PANEL LOGO AND EXACT PRICE)
     window.executePurchase = async () => {
         const durSelect = document.getElementById('modal-duration-select');
         const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
@@ -909,7 +994,6 @@
         loader.classList.remove('hidden');
 
         try {
-            // Fresh read from DB to prevent concurrent conflicts
             const prodSnap = await get(ref(db, `store_management/${selectedBuyProductKey}`));
             if (!prodSnap.exists()) {
                 loader.classList.add('hidden');
@@ -924,7 +1008,6 @@
                 updatedPlans = [...pData.plans];
                 selectedPlan = updatedPlans[parseInt(durSelect.value)];
             } else {
-                // Fallback for older single plan format
                 selectedPlan = {
                     duration: pData.daysPlan || "1 Day",
                     price: pData.priceRate || 0,
@@ -947,36 +1030,47 @@
 
             if (selectedPlan.keys.length < qty) {
                 loader.classList.add('hidden');
-                return showToast(`পর্যাপ্ত কী নেই! ${selectedPlan.duration} মেয়াদে মাত্র ${selectedPlan.keys.length} টি কী স্টকে আছে।`, 'error');
+                return showToast(`পর্যাপ্ত কী নেই! ${selectedPlan.duration} মেয়াদে মাত্র ${selectedPlan.keys.length} টি কী আছে।`, 'error');
             }
 
-            // Pick random keys for that duration
+            // Pick assigned keys
             const assignedKeys = [];
             for (let i = 0; i < qty; i++) {
                 const randIndex = Math.floor(Math.random() * selectedPlan.keys.length);
                 assignedKeys.push(selectedPlan.keys.splice(randIndex, 1)[0]);
             }
 
-            // Update Database with deducted keys
+            // Update Database stock
             if (pData.plans && Array.isArray(pData.plans)) {
-                await update(ref(db, `store_management/${selectedBuyProductKey}`), {
-                    plans: updatedPlans
-                });
+                await update(ref(db, `store_management/${selectedBuyProductKey}`), { plans: updatedPlans });
             } else {
-                await update(ref(db, `store_management/${selectedBuyProductKey}`), {
-                    availableKeys: selectedPlan.keys
-                });
+                await update(ref(db, `store_management/${selectedBuyProductKey}`), { availableKeys: selectedPlan.keys });
             }
 
-            // Deduct user balance
+            // Deduct balance
             const newBal = userBal - totalCost;
             await update(ref(db, `users/${currentUserId}`), { balance: newBal });
 
-            // Store in User's Generated Keys History with selected duration
+            // Format date string (e.g. 06-09-2026 04:52:30 PM)
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB') + ' ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+            const serialNo = Math.floor(10000 + Math.random() * 90000);
+
+            // Extract the panel's true logo (Drip Client, Aim Hack, etc.)
+            const rawPanelImg = pData.imageCode || pData.imageUrl || pData.image || pData.productImage || pData.logo || '';
+            const panelSpecificLogo = extractPureImageUrl(rawPanelImg);
+
+            // Store in User's Generated Keys History with panel's specific logo & price
             const keyRef = push(ref(db, `users/${currentUserId}/generatedKeys`));
             await set(keyRef, {
-                product: pData.productName || selectedBuyProductKey,
+                productKey: selectedBuyProductKey,
+                product: pData.productName || selectedBuyProductKey.replace(/_/g, ' ').toUpperCase(),
+                logo: panelSpecificLogo,
                 duration: selectedPlan.duration,
+                price: totalCost,
+                serialNo: serialNo,
+                date: dateStr,
+                status: "COMPLETED",
                 qty: qty,
                 keys: assignedKeys,
                 timestamp: new Date().toISOString()
@@ -992,49 +1086,127 @@
         }
     };
 
-    // RENDER PURCHASED KEYS
+    // RENDER PURCHASED KEYS (MATCHING PANEL LOGO & SCREENSHOT 1)
     function renderPurchasedKeys(keysObj) {
         const target = document.getElementById('user-keys-target');
+        const countBadge = document.getElementById('user-keys-count');
+
         if (!keysObj) {
             target.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:30px; font-size:13px;">No keys generated yet.</p>`;
+            if (countBadge) countBadge.innerText = '0 Orders';
             return;
         }
 
+        const items = Object.values(keysObj).reverse();
+        if (countBadge) countBadge.innerText = `${items.length} Orders`;
         target.innerHTML = '';
-        Object.values(keysObj).reverse().forEach(k => {
-            const box = document.createElement('div');
-            box.className = 'keys-card';
 
-            let keysRows = '';
-            if (k.keys && Array.isArray(k.keys)) {
-                keysRows = k.keys.map((keyValue, index) => {
-                    const label = k.keys.length > 1 ? `Key ${index + 1}: ` : '';
-                    return `
-                        <div class="key-copy-row">
-                            <span><strong>${label}</strong>${keyValue}</span>
-                            <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${keyValue}'); showToast('Key Copied!')"></i>
-                        </div>
-                    `;
-                }).join('');
-            } else if (k.keyCode) {
-                keysRows = `
-                    <div class="key-copy-row">
-                        <span>${k.keyCode}</span>
-                        <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${k.keyCode}'); showToast('Key Copied!')"></i>
-                    </div>
-                `;
+        items.forEach(k => {
+            const card = document.createElement('div');
+            card.className = 'panel-order-card';
+
+            const panelName = k.product || 'PANEL KEY';
+            const planDuration = k.duration || '1 DAYS';
+            const serial = k.serialNo || Math.floor(10000 + Math.random() * 90000);
+            const orderDate = k.date || (k.timestamp ? new Date(k.timestamp).toLocaleString() : 'Recent');
+            const statusTxt = k.status || 'COMPLETED';
+
+            // Find pure logo of the purchased panel (NOT FRG STORE LOGO)
+            let panelLogoUrl = extractPureImageUrl(k.logo);
+
+            // If logo is missing or is the default FRG Store image, dynamically fetch the real product logo from live store
+            if (!panelLogoUrl || panelLogoUrl.includes('1000076287.jpg')) {
+                const matchedKey = k.productKey || Object.keys(liveStoreProducts).find(pKey => {
+                    const prod = liveStoreProducts[pKey];
+                    return pKey.toLowerCase() === (k.product || '').toLowerCase() || 
+                           (prod.productName && prod.productName.toLowerCase() === (k.product || '').toLowerCase());
+                });
+
+                if (matchedKey && liveStoreProducts[matchedKey]) {
+                    const prod = liveStoreProducts[matchedKey];
+                    const rawImg = prod.imageCode || prod.imageUrl || prod.image || prod.productImage || prod.logo;
+                    panelLogoUrl = extractPureImageUrl(rawImg);
+                }
             }
 
-            box.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <strong style="font-size:14px;">${k.product}</strong>
-                    <span style="font-size:11px; background:rgba(0,255,115,0.1); border:1px solid rgba(0,255,115,0.3); padding:3px 8px; border-radius:6px; color:var(--neon-green); font-weight:700;">
-                        ${k.duration || 'Standard'}
-                    </span>
+            // If still empty fallback
+            if (!panelLogoUrl) {
+                panelLogoUrl = 'https://i.ibb.co/m52N6nRj/1000076287.jpg';
+            }
+
+            // Price Formatting
+            let finalPrice = k.price;
+            if (finalPrice === undefined || finalPrice === null || finalPrice === '') {
+                // If old order lacked price, check store
+                const matchedKey = k.productKey || Object.keys(liveStoreProducts).find(pKey => pKey === k.product);
+                if (matchedKey && liveStoreProducts[matchedKey]) {
+                    const prod = liveStoreProducts[matchedKey];
+                    if (prod.plans && Array.isArray(prod.plans)) {
+                        const pl = prod.plans.find(x => x.duration === k.duration);
+                        if (pl) finalPrice = pl.price;
+                    }
+                    if (!finalPrice && prod.priceRate) finalPrice = prod.priceRate;
+                }
+            }
+            const priceDisplay = (finalPrice !== undefined && finalPrice !== null) ? `৳${finalPrice}` : '৳0';
+
+            // Key Blocks
+            let keysContentHtml = '';
+            const keyList = k.keys || (k.keyCode ? [k.keyCode] : ['KEY-NOT-FOUND']);
+
+            keyList.forEach((singleKey, index) => {
+                const label = keyList.length > 1 ? `🔑 KEY #${index + 1}` : `🔑 YOUR KEY`;
+                keysContentHtml += `
+                    <div class="panel-key-label">${label}</div>
+                    <div class="panel-key-code-box">${singleKey}</div>
+                    <div class="panel-actions-grid" style="margin-bottom: 12px;">
+                        <button class="btn-order-copy" onclick="copyKeyToClipboard('${singleKey}')">
+                            <i class="far fa-copy"></i> Copy Code
+                        </button>
+                        <a href="https://t.me/DEVBRONX" target="_blank" class="btn-order-review">
+                            <i class="fas fa-star"></i> Review
+                        </a>
+                    </div>
+                `;
+            });
+
+            card.innerHTML = `
+                <!-- Panel Header with Actual Panel Logo -->
+                <div class="panel-order-header">
+                    <img src="${panelLogoUrl}" alt="${panelName}" class="panel-order-logo" onerror="this.onerror=null; this.src='https://i.ibb.co/m52N6nRj/1000076287.jpg';"/>
+                    <div class="panel-order-title-wrap">
+                        <h4>${panelName}</h4>
+                        <span class="panel-duration-pill">${planDuration}</span>
+                    </div>
                 </div>
-                ${keysRows}
+
+                <hr class="panel-divider-dashed"/>
+
+                <!-- Order Details (Serial, Date, Price, Status) -->
+                <div class="panel-detail-row">
+                    <span class="panel-row-lbl"><i class="fas fa-hashtag"></i> Serial NO</span>
+                    <span class="panel-row-val">${serial}</span>
+                </div>
+
+                <div class="panel-detail-row">
+                    <span class="panel-row-lbl"><i class="far fa-calendar-alt"></i> Date</span>
+                    <span class="panel-row-val" style="font-size:12px;">${orderDate}</span>
+                </div>
+
+                <div class="panel-detail-row">
+                    <span class="panel-row-lbl"><i class="fas fa-money-bill-wave"></i> Price</span>
+                    <span class="panel-row-val" style="color:#0f172a; font-weight:800; font-size:14px;">${priceDisplay}</span>
+                </div>
+
+                <div class="panel-detail-row">
+                    <span class="panel-row-lbl"><i class="fas fa-info-circle"></i> Status</span>
+                    <span class="panel-status-completed">${statusTxt}</span>
+                </div>
+
+                <!-- Keys & Action Buttons -->
+                ${keysContentHtml}
             `;
-            target.appendChild(box);
+            target.appendChild(card);
         });
     }
 
@@ -1046,7 +1218,7 @@
         loader.classList.remove('hidden');
         await update(ref(db, `users/${currentUserId}`), { password: newPass });
         loader.classList.add('hidden');
-        showToast("পাসওয়ার্ড পরিবর্তন হয়েছে!");
+        showToast("পাসওয়ার্ড সফলভাবে পরিবর্তন হয়েছে!");
         document.getElementById('acc-new-pass').value = '';
     };
 
@@ -1122,4 +1294,4 @@
     };
 </script>
 </body>
-    </html>
+</html>
