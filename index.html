@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+    <title>FRG STORE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <style>
+        :root {
+            --bg-color: #0b0a12;
+            --card-bg: #141320;
+            --card-border: rgba(255, 255, 255, 0.08);
+            --neon-green: #00ff73;
+            --bkash-color: #e2136e;
+            --btn-blue: #5b5ceb;
+            --btn-buy: #00b074;
+            --text-main: #ffffff;
+            --text-muted: #9598a8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; padding-bottom: 75px; overflow-x: hidden; }
+        .hidden { display: none !important; }
+
+        /* Loader */
+        #loader { position: fixed; inset: 0; background: #07060b; z-index: 99999; display: flex; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 45px; height: 45px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--neon-green); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Toast */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100000; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 380px; }
+        .toast { padding: 12px 18px; border-radius: 12px; font-size: 13px; font-weight: 600; background: rgba(20, 19, 32, 0.95); border: 1px solid var(--card-border); border-left: 4px solid var(--neon-green); box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; align-items: center; gap: 10px; }
+        .toast.error { border-left-color: #ff3366; }
+
+        /* Top Header */
+        .top-navbar {
+            position: sticky; top: 0; z-index: 999; background: #12111c;
+            height: 65px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px; border-bottom: 1px solid var(--card-border);
+        }
+        .brand-badge {
+            background: #1d1b2c; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px; padding: 6px 16px; font-size: 15px; font-weight: 800;
+            color: #fff; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+        }
+        .brand-badge span { color: var(--neon-green); }
+        .balance-chip {
+            background: rgba(0, 255, 115, 0.1); border: 1px solid rgba(0, 255, 115, 0.3);
+            color: var(--neon-green); font-weight: 700; font-size: 14px;
+            padding: 6px 14px; border-radius: 20px; cursor: pointer;
+        }
+
+        .page-container { max-width: 480px; margin: 0 auto; padding: 15px; }
+
+        /* Auth Screen */
+        .auth-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 20px;
+            padding: 30px 20px; text-align: center; margin-top: 40px;
+        }
+        .auth-card h2 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+        .input-group { margin-bottom: 14px; text-align: left; }
+        .input-group label { display: block; font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
+        .input-box {
+            width: 100%; height: 48px; background: rgba(0,0,0,0.3);
+            border: 1px solid var(--card-border); border-radius: 12px; color: white;
+            padding: 0 15px; font-size: 14px; outline: none; transition: 0.2s;
+        }
+        .input-box:focus { border-color: var(--neon-green); }
+        .btn-main {
+            width: 100%; height: 48px; border-radius: 12px; border: none; font-weight: 700;
+            background: linear-gradient(90deg, #10b981, #059669); color: white; cursor: pointer;
+            font-size: 14px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 8px;
+        }
+        .auth-toggle { margin-top: 15px; font-size: 13px; color: var(--text-muted); }
+        .auth-toggle span { color: var(--neon-green); font-weight: 600; cursor: pointer; }
+
+        /* Product Grid */
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        .product-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px;
+            overflow: hidden; display: flex; flex-direction: column; text-align: center;
+            padding: 10px; transition: transform 0.2s; position: relative;
+        }
+        .product-card:active { transform: scale(0.98); }
+        .product-poster-wrapper {
+            width: 100%; aspect-ratio: 1/1; border-radius: 12px; overflow: hidden;
+            background: #06050b; margin-bottom: 10px; display: flex; justify-content: center; align-items: center;
+        }
+        .product-poster-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .product-title-pill {
+            background: #252438; color: #fff; font-size: 11px; font-weight: 700;
+            padding: 6px 8px; border-radius: 20px; text-transform: uppercase;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 8px;
+        }
+        .product-price-txt { font-size: 15px; font-weight: 800; color: var(--neon-green); margin-bottom: 10px; }
+        .btn-card-setup {
+            width: 100%; height: 36px; background: #4d4bd6; color: white; border-radius: 10px;
+            border: none; font-size: 11px; font-weight: 700; display: flex; align-items: center;
+            justify-content: center; gap: 6px; cursor: pointer; margin-bottom: 6px;
+        }
+        .btn-card-buy {
+            width: 100%; height: 36px; background: #009a63; color: white; border-radius: 10px;
+            border: none; font-size: 11px; font-weight: 700; display: flex; align-items: center;
+            justify-content: center; gap: 6px; cursor: pointer;
+        }
+
+        /* -------------------------------------------
+           FILE & SETUP POPUP MODAL (Exact match with screenshot)
+        ------------------------------------------- */
+        .setup-modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);
+            z-index: 10002; display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .setup-modal-box {
+            background: #161a29; width: 100%; max-width: 380px; border-radius: 24px;
+            border: 2px solid #00ff73; padding: 22px 18px; box-shadow: 0 0 30px rgba(0, 255, 115, 0.2);
+            animation: zoomIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes zoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .setup-modal-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+        .setup-modal-title {
+            font-size: 14px; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px;
+            max-width: 80%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .setup-modal-close {
+            width: 34px; height: 34px; border-radius: 50%; background: #232738;
+            display: flex; justify-content: center; align-items: center; color: #a1a5b8;
+            cursor: pointer; border: none; font-size: 14px;
+        }
+        
+        .setup-action-list { display: flex; flex-direction: column; gap: 12px; }
+        .setup-act-btn {
+            width: 100%; height: 52px; border-radius: 14px; border: none;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+            color: #ffffff; font-weight: 700; font-size: 13px; text-decoration: none;
+            letter-spacing: 0.5px; cursor: pointer; transition: transform 0.2s;
+        }
+        .setup-act-btn:active { transform: scale(0.98); }
+        .setup-act-left { display: flex; align-items: center; gap: 12px; }
+        .setup-act-left i { font-size: 18px; }
+        
+        /* Button Colors */
+        .btn-setup-yt { background: #e53935; box-shadow: 0 4px 15px rgba(229, 57, 53, 0.35); }
+        .btn-setup-apk { background: #9c27b0; box-shadow: 0 4px 15px rgba(156, 39, 176, 0.35); }
+        .btn-setup-feedback { background: #1e88e5; box-shadow: 0 4px 15px rgba(30, 136, 229, 0.35); }
+
+        /* BUY MODAL */
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+            z-index: 10001; display: flex; align-items: flex-end; justify-content: center;
+        }
+        .modal-sheet {
+            background: #181726; width: 100%; max-width: 480px; border-top-left-radius: 24px;
+            border-top-right-radius: 24px; padding: 25px 20px; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* bKash Add Fund */
+        .bkash-banner {
+            background: linear-gradient(135deg, #e2136e, #9e0c4c); border-radius: 16px;
+            padding: 20px; text-align: center; color: white; margin-bottom: 15px;
+        }
+        .bkash-number-box {
+            background: #fff; color: #000; font-size: 18px; font-weight: 800;
+            padding: 10px 15px; border-radius: 12px; margin: 12px 0; display: flex;
+            justify-content: space-between; align-items: center; cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
+            background: #12111c; border-top: 1px solid var(--card-border);
+            display: flex; justify-content: space-around; align-items: center; z-index: 999;
+        }
+        .nav-tab-item {
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--text-muted); font-size: 11px; font-weight: 600; cursor: pointer;
+        }
+        .nav-tab-item.active { color: var(--neon-green); }
+
+        /* Floating Support */
+        .floating-support {
+            position: fixed; bottom: 80px; right: 18px; width: 50px; height: 50px;
+            background: #25d366; border-radius: 50%; display: flex; justify-content: center;
+            align-items: center; color: white; font-size: 24px; box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+            z-index: 990; text-decoration: none;
+        }
+
+        .keys-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px;
+            padding: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px;
+        }
+        .key-copy-row {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; font-family: monospace;
+            color: var(--neon-green); font-size: 13px; font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loader">
+    <div class="spinner"></div>
+    <p style="margin-top: 12px; font-size: 13px; font-weight: 600; letter-spacing: 1px;">FRG STORE LOADING...</p>
+</div>
+
+<div id="toast-container"></div>
+
+<!-- Floating Customer Care -->
+<a href="@DEVBRONX" target="_blank" class="floating-support">
+    <i class="fas fa-headset"></i>
+</a>
+
+<!-- AUTH SECTION -->
+<div id="auth-section" class="page-container">
+    <div class="auth-card" id="login-box">
+        <h2>FRG <span>STORE</span></h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Login to your client account</p>
+        
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" class="input-box" id="login-username" placeholder="Enter username"/>
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" class="input-box" id="login-password" placeholder="Enter password"/>
+        </div>
+        <button class="btn-main" id="btn-login"><i class="fas fa-sign-in-alt"></i> Login Now</button>
+        <p class="auth-toggle">New to FRG STORE? <span id="to-signup">Create Account</span></p>
+    </div>
+
+    <div class="auth-card hidden" id="signup-box">
+        <h2>REGISTER</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Join FRG STORE today</p>
+        
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" class="input-box" id="signup-name" placeholder="Full Name"/>
+        </div>
+        <div class="input-group">
+            <label>Gmail Address</label>
+            <input type="email" class="input-box" id="signup-email" placeholder="example@gmail.com"/>
+        </div>
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" class="input-box" id="signup-username" placeholder="Username"/>
+        </div>
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" class="input-box" id="signup-password" placeholder="Minimum 6 characters"/>
+        </div>
+        <button class="btn-main" id="btn-signup"><i class="fas fa-user-plus"></i> Register</button>
+        <p class="auth-toggle">Have an account? <span id="to-login">Login Here</span></p>
+    </div>
+</div>
+
+<!-- MAIN CLIENT APP -->
+<div id="main-app" class="hidden">
+    <header class="top-navbar">
+        <div class="brand-badge">
+            <i class="fas fa-shield-alt" style="color:var(--neon-green)"></i> FRG STORE
+        </div>
+        <div class="balance-chip" onclick="switchTab('tab-addfund')">
+            <i class="fas fa-wallet"></i> ৳<span id="user-bal-top">0.00</span>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <!-- TAB 1: HOME -->
+        <section id="view-home">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 style="font-size:15px; font-weight:700;">🔥 Available Products</h3>
+                <span style="font-size:12px; color:var(--text-muted);" id="prods-count">0 items</span>
+            </div>
+            
+            <div class="product-grid" id="products-grid-target"></div>
+        </section>
+
+        <!-- TAB 2: ADD FUND (BKASH) -->
+        <section id="view-addfund" class="hidden">
+            <div class="bkash-banner">
+                <div style="font-size: 18px; font-weight: 800; display:flex; justify-content:center; align-items:center; gap:8px;">
+                    <i class="fas fa-money-bill-wave"></i> bKash Personal Deposit
+                </div>
+                <p style="font-size: 12px; margin-top: 4px; opacity: 0.9;">Send Money to this personal bKash number</p>
+                
+                <div class="bkash-number-box" onclick="copyBkashNumber()">
+                    <span id="bkash-num-text">01860909272</span>
+                    <i class="far fa-copy" style="color: var(--bkash-color); font-size: 18px;"></i>
+                </div>
+                <span style="font-size:10px; background:rgba(255,255,255,0.2); padding:4px 10px; border-radius:8px;">
+                    <i class="fas fa-info-circle"></i> Minimum Deposit: ৳20
+                </span>
+            </div>
+
+            <div class="auth-card" style="margin-top: 0;">
+                <div class="input-group">
+                    <label>Amount Sent (৳)</label>
+                    <input type="number" class="input-box" id="dep-amount" placeholder="e.g. 100"/>
+                </div>
+                <div class="input-group">
+                    <label>Sender bKash Number</label>
+                    <input type="text" class="input-box" id="dep-sender" placeholder="017xxxxxxxx"/>
+                </div>
+                <div class="input-group">
+                    <label>bKash Transaction ID (TrxID)</label>
+                    <input type="text" class="input-box" id="dep-trxid" placeholder="8N7X6K9LM"/>
+                </div>
+                <button class="btn-main" style="background: var(--bkash-color);" id="btn-submit-bkash">
+                    <i class="fas fa-paper-plane"></i> Submit Deposit
+                </button>
+            </div>
+        </section>
+
+        <!-- TAB 3: MY KEYS -->
+        <section id="view-mykeys" class="hidden">
+            <h3 style="font-size:15px; font-weight:700; margin-bottom: 12px;">🔑 Purchased Keys History</h3>
+            <div id="user-keys-target">
+                <p style="text-align:center; color:var(--text-muted); margin-top:30px; font-size:13px;">No keys generated yet.</p>
+            </div>
+        </section>
+
+        <!-- TAB 4: ACCOUNT -->
+        <section id="view-account" class="hidden">
+            <div class="auth-card" style="margin-top: 0; text-align: left;">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom: 15px;">
+                    <div style="width:50px; height:50px; background:#201e33; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:20px; color:var(--neon-green);">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h3 id="acc-username">Username</h3>
+                        <p style="font-size:12px; color:var(--text-muted);" id="acc-email">email@gmail.com</p>
+                    </div>
+                </div>
+                
+                <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:12px; margin-bottom: 15px; display:flex; justify-content:space-between;">
+                    <span>Wallet Balance:</span>
+                    <strong style="color:var(--neon-green);">৳<span id="acc-balance">0.00</span></strong>
+                </div>
+
+                <div class="input-group">
+                    <label>Change Password</label>
+                    <input type="password" class="input-box" id="acc-new-pass" placeholder="Enter new password"/>
+                </div>
+                <button class="btn-main" style="margin-bottom: 12px; height:42px;" id="btn-update-pass">Update Password</button>
+
+                <button class="btn-main" style="background:#ff2a5f; height:42px;" id="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout Session
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-tab-item active" id="tab-home" onclick="switchTab('tab-home')"><i class="fas fa-home"></i><span>Home</span></div>
+        <div class="nav-tab-item" id="tab-addfund" onclick="switchTab('tab-addfund')"><i class="fas fa-wallet"></i><span>Add Fund</span></div>
+        <div class="nav-tab-item" id="tab-mykeys" onclick="switchTab('tab-mykeys')"><i class="fas fa-key"></i><span>My Key</span></div>
+        <div class="nav-tab-item" id="tab-account" onclick="switchTab('tab-account')"><i class="fas fa-user"></i><span>Account</span></div>
+    </nav>
+</div>
+
+<!-- FILE & SETUP MODAL POPUP (EXACT MATCH WITH SCREENSHOT) -->
+<div class="setup-modal-backdrop hidden" id="setup-popup-modal">
+    <div class="setup-modal-box">
+        <div class="setup-modal-header">
+            <span class="setup-modal-title" id="popup-panel-title">PANEL NAME</span>
+            <button class="setup-modal-close" onclick="closeSetupModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="setup-action-list">
+            <!-- 1. Red Setup Video -->
+            <a href="#" target="_blank" class="setup-act-btn btn-setup-yt" id="popup-yt-btn">
+                <div class="setup-act-left">
+                    <i class="fab fa-youtube"></i>
+                    <span>SET-UP VIDEO</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+
+            <!-- 2. Purple Updated APK / File -->
+            <a href="#" target="_blank" class="setup-act-btn btn-setup-apk" id="popup-apk-btn">
+                <div class="setup-act-left">
+                    <i class="fas fa-download"></i>
+                    <span>UPDATED APK / FILE</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+
+            <!-- 3. Blue Customer Feedback -->
+            <a href="#" target="_blank" class="setup-act-btn btn-setup-feedback" id="popup-feedback-btn">
+                <div class="setup-act-left">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>CUSTOMER FEEDBACK</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- BUY NOW MODAL -->
+<div class="modal-backdrop hidden" id="buy-modal">
+    <div class="modal-sheet">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 id="modal-prod-title" style="font-size: 16px; font-weight: 800;">BUY PRODUCT</h3>
+            <i class="fas fa-times" onclick="closeBuyModal()" style="font-size: 18px; cursor:pointer;"></i>
+        </div>
+
+        <div class="input-group">
+            <label>Select Duration / Plan</label>
+            <select class="input-box" id="modal-duration-select" onchange="calculateModalTotal()"></select>
+        </div>
+
+        <div class="input-group">
+            <label>Quantity</label>
+            <input type="number" class="input-box" id="modal-qty-input" value="1" min="1" oninput="calculateModalTotal()"/>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 0;">
+            <span style="color:var(--text-muted); font-size:13px;">Total Price:</span>
+            <span style="font-size:18px; font-weight:800; color:var(--neon-green);" id="modal-total-price">৳0.00</span>
+        </div>
+
+        <button class="btn-main" id="btn-confirm-purchase" onclick="executePurchase()">CONFIRM & GENERATE KEY</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, update, push, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // UPDATED NEW FIREBASE CONFIG
+    const firebaseConfig = {
+        apiKey: "AIzaSyBncaOFVPMcr23GFl3Wx0O-0rI7ALKxmBg",
+        authDomain: "stxwin-eade6.firebaseapp.com",
+        databaseURL: "https://stxwin-eade6-default-rtdb.firebaseio.com",
+        projectId: "stxwin-eade6",
+        storageBucket: "stxwin-eade6.firebasestorage.app",
+        messagingSenderId: "388023101479",
+        appId: "1:388023101479:android:d45620cd58a6a4ff488602"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    let currentUserId = null;
+    let currentUserData = { balance: 0, username: '' };
+    let liveStoreProducts = {};
+    let selectedBuyProduct = null;
+
+    const TELEGRAM_BOT_TOKEN = "7052994435:AAH_QxN4Xm-g3XvXg74Xb62g2P2w1l_xXXX"; 
+    const TELEGRAM_CHAT_ID = "-8071055850"; 
+
+    const loader = document.getElementById('loader');
+
+    window.addEventListener('load', () => {
+        const savedUid = localStorage.getItem('frg_user_uid');
+        if (savedUid) {
+            initSession(savedUid);
+        } else {
+            loader.classList.add('hidden');
+        }
+    });
+
+    window.showToast = (msg, type = 'success') => {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    };
+
+    window.copyBkashNumber = () => {
+        const num = document.getElementById('bkash-num-text').innerText;
+        navigator.clipboard.writeText(num).then(() => {
+            showToast("bKash Number Copied: " + num);
+        });
+    };
+
+    window.switchTab = (tabId) => {
+        document.querySelectorAll('.nav-tab-item').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+
+        document.getElementById(tabId).classList.add('active');
+        const targetViewId = tabId.replace('tab-', 'view-');
+        document.getElementById(targetViewId).classList.remove('hidden');
+    };
+
+    document.getElementById('to-signup').onclick = () => {
+        document.getElementById('login-box').classList.add('hidden');
+        document.getElementById('signup-box').classList.remove('hidden');
+    };
+    document.getElementById('to-login').onclick = () => {
+        document.getElementById('signup-box').classList.add('hidden');
+        document.getElementById('login-box').classList.remove('hidden');
+    };
+
+    function initSession(uid) {
+        currentUserId = uid;
+        document.getElementById('auth-section').classList.add('hidden');
+        document.getElementById('main-app').classList.remove('hidden');
+
+        onValue(ref(db, `users/${uid}`), (snapshot) => {
+            if (snapshot.exists()) {
+                currentUserData = snapshot.val();
+                const bal = parseFloat(currentUserData.balance || 0).toFixed(2);
+                document.getElementById('user-bal-top').innerText = bal;
+                document.getElementById('acc-balance').innerText = bal;
+                document.getElementById('acc-username').innerText = (currentUserData.username || 'User').toUpperCase();
+                document.getElementById('acc-email').innerText = currentUserData.email || 'N/A';
+
+                renderPurchasedKeys(currentUserData.generatedKeys);
+            }
+            loader.classList.add('hidden');
+        });
+
+        // Store Products Realtime
+        onValue(ref(db, 'store_management'), (snapshot) => {
+            const grid = document.getElementById('products-grid-target');
+            grid.innerHTML = '';
+            if (!snapshot.exists()) {
+                grid.innerHTML = `<p style="grid-column: span 2; text-align:center; color:var(--text-muted); margin-top:30px;">No Products Available Yet.</p>`;
+                document.getElementById('prods-count').innerText = '0 items';
+                return;
+            }
+
+            liveStoreProducts = snapshot.val();
+            const keys = Object.keys(liveStoreProducts);
+            document.getElementById('prods-count').innerText = `${keys.length} items`;
+
+            keys.forEach(pKey => {
+                const prod = liveStoreProducts[pKey];
+                const pTitle = prod.productName || pKey.replace(/_/g, ' ');
+                const displayPrice = prod.priceRate || 0;
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+
+                // Poster Image or HTML Code
+                let posterHtml = '';
+                if (prod.imageCode && prod.imageCode.trim().startsWith('<')) {
+                    posterHtml = `<div class="product-poster-wrapper">${prod.imageCode}</div>`;
+                } else {
+                    const posterSrc = prod.imageCode || 'https://i.imgur.com/8Qp4b4W.png';
+                    posterHtml = `<div class="product-poster-wrapper"><img src="${posterSrc}" alt="${pTitle}"></div>`;
+                }
+
+                card.innerHTML = `
+                    ${posterHtml}
+                    <div class="product-title-pill">${pTitle}</div>
+                    <div class="product-price-txt">PRICE ${displayPrice}৳</div>
+                    <button class="btn-card-setup" onclick="openSetupModal('${pKey}')">
+                        <i class="fas fa-folder-open"></i> FILE & SETUP
+                    </button>
+                    <button class="btn-card-buy" onclick="openBuyModal('${pKey}')">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        });
+    }
+
+    // OPEN SCREENSHOT-LIKE FILE & SETUP POPUP
+    window.openSetupModal = (pKey) => {
+        const prod = liveStoreProducts[pKey];
+        if (!prod) return;
+
+        const pTitle = prod.productName || pKey.replace(/_/g, ' ');
+        document.getElementById('popup-panel-title').innerText = pTitle;
+
+        // Dynamic links from Admin
+        document.getElementById('popup-yt-btn').href = prod.setupVideoUrl || 'https://youtube.com';
+        document.getElementById('popup-apk-btn').href = prod.apkFileUrl || 'https://t.me/@DEVBRONX';
+        document.getElementById('popup-feedback-btn').href = prod.feedbackUrl || 'https://t.me/@DEVBRONX';
+
+        document.getElementById('setup-popup-modal').classList.remove('hidden');
+    };
+
+    window.closeSetupModal = () => {
+        document.getElementById('setup-popup-modal').classList.add('hidden');
+    };
+
+    // BUY MODAL
+    window.openBuyModal = (pKey) => {
+        selectedBuyProduct = liveStoreProducts[pKey];
+        if (!selectedBuyProduct) return;
+
+        document.getElementById('modal-prod-title').innerText = selectedBuyProduct.productName || pKey;
+        const durSelect = document.getElementById('modal-duration-select');
+        durSelect.innerHTML = '';
+
+        const opt = document.createElement('option');
+        opt.value = JSON.stringify({ days: selectedBuyProduct.daysPlan || '1 Day', price: selectedBuyProduct.priceRate || 0 });
+        opt.innerText = `${selectedBuyProduct.daysPlan || '1 Day'} - ৳${selectedBuyProduct.priceRate || 0}`;
+        durSelect.appendChild(opt);
+
+        document.getElementById('modal-qty-input').value = 1;
+        calculateModalTotal();
+        document.getElementById('buy-modal').classList.remove('hidden');
+    };
+
+    window.closeBuyModal = () => {
+        document.getElementById('buy-modal').classList.add('hidden');
+    };
+
+    window.calculateModalTotal = () => {
+        const select = document.getElementById('modal-duration-select');
+        const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
+        if (!select.value) return;
+
+        const plan = JSON.parse(select.value);
+        const total = plan.price * qty;
+        document.getElementById('modal-total-price').innerText = `৳${total.toFixed(2)}`;
+    };
+
+    window.executePurchase = async () => {
+        const select = document.getElementById('modal-duration-select');
+        const qty = parseInt(document.getElementById('modal-qty-input').value) || 1;
+        if (!select.value) return;
+
+        const plan = JSON.parse(select.value);
+        const totalCost = plan.price * qty;
+        const userBal = parseFloat(currentUserData.balance || 0);
+
+        if (userBal < totalCost) {
+            return showToast(`ব্যালেন্স পর্যাপ্ত নয়! প্রয়োজন ৳${totalCost.toFixed(2)}`, 'error');
+        }
+
+        loader.classList.remove('hidden');
+
+        try {
+            const newBal = userBal - totalCost;
+            const newKey = `FRG-${Math.random().toString(36).substr(2, 8).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+
+            const keyRef = push(ref(db, `users/${currentUserId}/generatedKeys`));
+            await set(keyRef, {
+                product: selectedBuyProduct.productName || 'Product',
+                duration: plan.days,
+                qty: qty,
+                keyCode: newKey,
+                timestamp: new Date().toISOString()
+            });
+
+            await update(ref(db, `users/${currentUserId}`), { balance: newBal });
+
+            showToast("কয়টি সফলভাবে তৈরি হয়েছে!");
+            closeBuyModal();
+            switchTab('tab-mykeys');
+        } catch (err) {
+            showToast("ত্রুটি হয়েছে!", "error");
+        } finally {
+            loader.classList.add('hidden');
+        }
+    };
+
+    function renderPurchasedKeys(keysObj) {
+        const target = document.getElementById('user-keys-target');
+        if (!keysObj) {
+            target.innerHTML = `<p style="text-align:center; color:var(--text-muted); margin-top:30px; font-size:13px;">No keys generated yet.</p>`;
+            return;
+        }
+
+        target.innerHTML = '';
+        Object.values(keysObj).reverse().forEach(k => {
+            const box = document.createElement('div');
+            box.className = 'keys-card';
+            box.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <strong style="font-size:14px;">${k.product}</strong>
+                    <span style="font-size:11px; background:#222036; padding:3px 8px; border-radius:6px; color:var(--neon-green);">${k.duration}</span>
+                </div>
+                <div class="key-copy-row">
+                    <span>${k.keyCode}</span>
+                    <i class="far fa-copy" style="cursor:pointer;" onclick="navigator.clipboard.writeText('${k.keyCode}'); showToast('Key Copied!')"></i>
+                </div>
+            `;
+            target.appendChild(box);
+        });
+    }
+
+    // bKash Submit
+    document.getElementById('btn-submit-bkash').onclick = async () => {
+        const amt = document.getElementById('dep-amount').value.trim();
+        const sender = document.getElementById('dep-sender').value.trim();
+        const trxid = document.getElementById('dep-trxid').value.trim();
+
+        if (!amt || parseFloat(amt) < 20) return showToast("কমপক্ষে ৳20 জমা দিন", "error");
+        if (!sender || sender.length < 11) return showToast("সঠিক বিকাশ নাম্বার দিন", "error");
+        if (!trxid || trxid.length < 6) return showToast("সঠিক TrxID দিন", "error");
+
+        loader.classList.remove('hidden');
+
+        try {
+            const depRef = push(ref(db, 'deposit_requests'));
+            await set(depRef, {
+                userId: currentUserId,
+                username: currentUserData.username,
+                amount: parseFloat(amt),
+                senderNumber: sender,
+                trxId: trxid,
+                method: "bKash",
+                timestamp: new Date().toISOString(),
+                status: "Pending"
+            });
+
+            const telegramMsg = `💰 *New bKash Deposit (FRG STORE)* 💰\n\n👤 *User:* @${currentUserData.username.toUpperCase()}\n📱 *Sender No:* \`${sender}\`\n💵 *Amount:* ৳${amt}\n🔢 *TrxID:* \`${trxid}\`\n⏰ *Time:* ${new Date().toLocaleString()}`;
+
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: telegramMsg, parse_mode: 'Markdown' })
+            });
+
+            showToast("ডিপোজিট সাবমিট হয়েছে! অ্যাডমিন অনুমোদন করবেন।");
+            document.getElementById('dep-amount').value = '';
+            document.getElementById('dep-sender').value = '';
+            document.getElementById('dep-trxid').value = '';
+        } catch (e) {
+            showToast("ডিপোজিটে সমস্যা হয়েছে", "error");
+        } finally {
+            loader.classList.add('hidden');
+        }
+    };
+
+    // Update Password
+    document.getElementById('btn-update-pass').onclick = async () => {
+        const newPass = document.getElementById('acc-new-pass').value.trim();
+        if (newPass.length < 6) return showToast("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে", "error");
+
+        loader.classList.remove('hidden');
+        await update(ref(db, `users/${currentUserId}`), { password: newPass });
+        loader.classList.add('hidden');
+        showToast("পাসওয়ার্ড পরিবর্তন হয়েছে!");
+        document.getElementById('acc-new-pass').value = '';
+    };
+
+    // Login & Register
+    document.getElementById('btn-login').onclick = async () => {
+        const u = document.getElementById('login-username').value.trim().toLowerCase();
+        const p = document.getElementById('login-password').value.trim();
+        if (!u || !p) return showToast("ইউজারনেম ও পাসওয়ার্ড দিন", "error");
+
+        loader.classList.remove('hidden');
+        const snap = await get(ref(db, 'users'));
+        let foundUid = null;
+        if (snap.exists()) {
+            snap.forEach(child => {
+                const val = child.val();
+                if (val.username && val.username.toLowerCase() === u && val.password === p) {
+                    foundUid = child.key;
+                }
+            });
+        }
+
+        if (foundUid) {
+            localStorage.setItem('frg_user_uid', foundUid);
+            initSession(foundUid);
+            showToast("FRG STORE এ স্বাগতম!");
+        } else {
+            showToast("ভুল ইউজারনেম অথবা পাসওয়ার্ড!", "error");
+            loader.classList.add('hidden');
+        }
+    };
+
+    document.getElementById('btn-signup').onclick = async () => {
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const username = document.getElementById('signup-username').value.trim().toLowerCase();
+        const pass = document.getElementById('signup-password').value.trim();
+
+        if (!name || !email || !username || pass.length < 6) return showToast("সবগুলো তথ্য দিন", "error");
+
+        loader.classList.remove('hidden');
+        const snap = await get(ref(db, 'users'));
+        let exists = false;
+        if (snap.exists()) {
+            snap.forEach(child => {
+                if (child.val().username && child.val().username.toLowerCase() === username) exists = true;
+            });
+        }
+
+        if (exists) {
+            loader.classList.add('hidden');
+            return showToast("ইউজারনেম ইতোমধ্যে ব্যবহৃত হয়েছে!", "error");
+        }
+
+        const newUid = "UID-" + Math.floor(100000 + Math.random() * 900000);
+        await set(ref(db, `users/${newUid}`), {
+            name: name,
+            email: email,
+            username: username,
+            password: pass,
+            balance: 0.00,
+            role: "Client",
+            status: "Active"
+        });
+
+        localStorage.setItem('frg_user_uid', newUid);
+        initSession(newUid);
+        showToast("রেজিস্ট্রেশন সফল হয়েছে!");
+    };
+
+    document.getElementById('btn-logout').onclick = () => {
+        localStorage.removeItem('frg_user_uid');
+        location.reload();
+    };
+</script>
+</body>
+</html>
